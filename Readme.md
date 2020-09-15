@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Ирина Матэуш](https://up.htmlacademy.ru/javascript/21/user/63669).
-* Наставник: `Неизвестно`.
+* Наставник: [Яна Казанина](https://htmlacademy.ru/profile/id1275245).
 
 ---
 
