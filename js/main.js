@@ -1,12 +1,12 @@
 "use strict";
 
-var map = document.querySelector('.map');
+const map = document.querySelector('.map');
 map.classList.remove('map--faded');
 
-var PINSCOUNT = 8;
+const PINSCOUNT = 8;
 
-var pinListElement = document.querySelector('.map__pins');
-var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+const pinListElement = document.querySelector('.map__pins');
+const pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -16,39 +16,39 @@ function getRandomInt(min, max) {
 
 function getArrayRandomLength(arr) {
   let newArr = [];
-  var newArrayLength = getRandomInt(1, arr.length);
-  for (var i = arr.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
+  let newArrayLength = getRandomInt(1, arr.length);
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
-  for (i=0; i<newArrayLength; i++) {
+  for (let i=0; i<newArrayLength; i++) {
     newArr.push(arr[i])
   }
   return newArr;
 }
 
-var getArrayPins = function (PINSCOUNT) {
-  var arr = [];
-  var MIN_X = pinListElement.getBoundingClientRect().x;
-  var MAX_X = pinListElement.getBoundingClientRect().width;
-  var MIN_Y = 130;
-  var MAX_Y = 630;
-  var FEATURES = ["wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"];
-  var PHOTOS = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"];
-  var MIN_PRICE = 1;
-  var MAX_PRICE = 10000;
-  var MIN_ROOMS = 1;
-  var MAX_ROOMS = 10;
-  var MIN_GUESTS = 1;
-  var MAX_GUESTS = 10;
-  var TYPES = ["palace", "flat", "house", "bungalo"];
-  var CHECKIN = ["12:00", "13:00", "14:00"];
-  var CHECKOUT = ["12:00", "13:00", "14:00"];
+let getArrayPins = function (PINSCOUNT) {
+  let arr = [];
+  const MIN_X = pinListElement.getBoundingClientRect().x;
+  const MAX_X = pinListElement.getBoundingClientRect().width;
+  const MIN_Y = 130;
+  const MAX_Y = 630;
+  const FEATURES = ["wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"];
+  const PHOTOS = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"];
+  const MIN_PRICE = 1;
+  const MAX_PRICE = 10000;
+  const MIN_ROOMS = 1;
+  const MAX_ROOMS = 10;
+  const MIN_GUESTS = 1;
+  const MAX_GUESTS = 10;
+  const TYPES = ["palace", "flat", "house", "bungalo"];
+  const CHECKIN = ["12:00", "13:00", "14:00"];
+  const CHECKOUT = ["12:00", "13:00", "14:00"];
 
-  for (var i = 0; i < PINSCOUNT; i++) {
-    var x = getRandomInt(MIN_X, MAX_X);
-    var y = getRandomInt(MIN_Y, MAX_Y);
-    var photoIndex = i + 1;
+  for (let i = 0; i < PINSCOUNT; i++) {
+    let x = getRandomInt(MIN_X, MAX_X);
+    let y = getRandomInt(MIN_Y, MAX_Y);
+    let photoIndex = i + 1;
 
     arr.push({
       "author": {
@@ -76,20 +76,20 @@ var getArrayPins = function (PINSCOUNT) {
   return arr;
 };
 
-var pins = getArrayPins(PINSCOUNT);
+let pins = getArrayPins(PINSCOUNT);
 
 function renderPin(pin) {
-  var pinHalfWidth = 23;
-  var pinHeight = 64;
-  var pinElement = pinTemplate.cloneNode(true);
-  pinElement.setAttribute('style', "left: " + (pin.location.x - pinHalfWidth) + "px; top:" + (pin.location.y - pinHeight) + "px;");
+  const PIN_HALF_WIDTH = 23;
+  const PIN_HEIGHT = 64;
+  let pinElement = pinTemplate.cloneNode(true);
+  pinElement.setAttribute('style', "left: " + (pin.location.x - PIN_HALF_WIDTH) + "px; top:" + (pin.location.y - PIN_HEIGHT) + "px;");
   pinElement.querySelector('img').setAttribute('alt', pin.offer.title);
   pinElement.querySelector('img').setAttribute('src', pin.author.avatar);
   return pinElement;
 }
 
-var fragment = document.createDocumentFragment();
-for (var i = 0; i < pins.length; i++) {
+let fragment = document.createDocumentFragment();
+for (let i = 0; i < pins.length; i++) {
   fragment.appendChild(renderPin(pins[i]));
 }
 pinListElement.appendChild(fragment);
