@@ -1,12 +1,12 @@
-"use strict";
+'use strict';
 
-const map = document.querySelector('.map');
-map.classList.remove('map--faded');
+const map = document.querySelector(`.map`);
+map.classList.remove(`map--faded`);
 
-const PINSCOUNT = 8;
+const PINS_COUNT = 8;
 
-const pinListElement = document.querySelector('.map__pins');
-const pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+const pinListElement = document.querySelector(`.map__pins`);
+const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -21,70 +21,70 @@ function getArrayRandomLength(arr) {
     let j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
-  for (let i=0; i<newArrayLength; i++) {
-    newArr.push(arr[i])
+  for (let i = 0; i < newArrayLength; i++) {
+    newArr.push(arr[i]);
   }
   return newArr;
 }
 
-let getArrayPins = function (PINSCOUNT) {
+let getArrayPins = function (pinsCount) {
   let arr = [];
   const MIN_X = pinListElement.getBoundingClientRect().x;
   const MAX_X = pinListElement.getBoundingClientRect().width;
   const MIN_Y = 130;
   const MAX_Y = 630;
-  const FEATURES = ["wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"];
-  const PHOTOS = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"];
+  const FEATURES = [`wifi`, `dishwasher`, `parking`, `washer`, `elevator`, `conditioner`];
+  const PHOTOS = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0.github.io/assets/images/tokyo/hotel2.jpg`, `http://o0.github.io/assets/images/tokyo/hotel3.jpg`];
   const MIN_PRICE = 1;
   const MAX_PRICE = 10000;
   const MIN_ROOMS = 1;
   const MAX_ROOMS = 10;
   const MIN_GUESTS = 1;
   const MAX_GUESTS = 10;
-  const TYPES = ["palace", "flat", "house", "bungalo"];
-  const CHECKIN = ["12:00", "13:00", "14:00"];
-  const CHECKOUT = ["12:00", "13:00", "14:00"];
+  const TYPES = [`palace`, `flat`, `house`, `bungalo`];
+  const CHECKIN = [`12:00`, `13:00`, `14:00`];
+  const CHECKOUT = [`12:00`, `13:00`, `14:00`];
 
-  for (let i = 0; i < PINSCOUNT; i++) {
+  for (let i = 0; i < pinsCount; i++) {
     let x = getRandomInt(MIN_X, MAX_X);
     let y = getRandomInt(MIN_Y, MAX_Y);
     let photoIndex = i + 1;
 
     arr.push({
-      "author": {
-        "avatar": "img/avatars/user0" + photoIndex + ".png",
+      'author': {
+        'avatar': `img/avatars/user0` + photoIndex + `.png`,
       },
-      "offer": {
-        "title": "Шикарное предложение!",
-        "address": x + ", " + y,
-        "price": getRandomInt(MIN_PRICE, MAX_PRICE),
-        "type": TYPES[getRandomInt(0, TYPES.length - 1)],
-        "rooms": getRandomInt(MIN_ROOMS, MAX_ROOMS),
-        "guests": getRandomInt(MIN_GUESTS, MAX_GUESTS),
-        "checkin": CHECKIN[getRandomInt(0, CHECKIN.length - 1)],
-        "checkout": CHECKOUT[getRandomInt(0, CHECKOUT.length - 1)],
-        "features": getArrayRandomLength(FEATURES),
-        "description": "Номер с видом на море",
-        "photos": getArrayRandomLength(PHOTOS),
+      'offer': {
+        'title': `Шикарное предложение!`,
+        'address': x + `, ` + y,
+        'price': getRandomInt(MIN_PRICE, MAX_PRICE),
+        'type': TYPES[getRandomInt(0, TYPES.length - 1)],
+        'rooms': getRandomInt(MIN_ROOMS, MAX_ROOMS),
+        'guests': getRandomInt(MIN_GUESTS, MAX_GUESTS),
+        'checkin': CHECKIN[getRandomInt(0, CHECKIN.length - 1)],
+        'checkout': CHECKOUT[getRandomInt(0, CHECKOUT.length - 1)],
+        'features': getArrayRandomLength(FEATURES),
+        'description': `Номер с видом на море`,
+        'photos': getArrayRandomLength(PHOTOS),
       },
-      "location": {
-        "x": x,
-        "y": y,
+      'location': {
+        'x': x,
+        'y': y,
       },
-    })
+    });
   }
   return arr;
 };
 
-let pins = getArrayPins(PINSCOUNT);
+let pins = getArrayPins(PINS_COUNT);
 
 function renderPin(pin) {
   const PIN_HALF_WIDTH = 23;
   const PIN_HEIGHT = 64;
   let pinElement = pinTemplate.cloneNode(true);
-  pinElement.setAttribute('style', "left: " + (pin.location.x - PIN_HALF_WIDTH) + "px; top:" + (pin.location.y - PIN_HEIGHT) + "px;");
-  pinElement.querySelector('img').setAttribute('alt', pin.offer.title);
-  pinElement.querySelector('img').setAttribute('src', pin.author.avatar);
+  pinElement.setAttribute(`style`, `left: ` + (pin.location.x - PIN_HALF_WIDTH) + `px; top:` + (pin.location.y - PIN_HEIGHT) + `px;`);
+  pinElement.querySelector(`img`).setAttribute(`alt`, pin.offer.title);
+  pinElement.querySelector(`img`).setAttribute(`src`, pin.author.avatar);
   return pinElement;
 }
 
