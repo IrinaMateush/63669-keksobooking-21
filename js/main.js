@@ -35,8 +35,8 @@ const getRandomInt = (min, max) => {
 };
 
 const getArrayRandomLength = (arr) => {
-  let newArrayLength = getRandomInt(1, arr.length);
-  let newArr = [];
+  const newArrayLength = getRandomInt(1, arr.length);
+  const newArr = [];
   for (let i = 0; i < newArrayLength; i++) {
     newArr.push(arr[i]);
   }
@@ -66,7 +66,7 @@ const getLivingType = (pin) => {
 
 const getCapacity = (pin) => {
   let roomMessage = ``;
-  let guestsMessage = pin.offer.guests + (pin.offer.guests === 1 ? ` гостя` : ` гостей`);
+  const guestsMessage = pin.offer.guests + (pin.offer.guests === 1 ? ` гостя` : ` гостей`);
 
   if (pin.offer.rooms === 1) {
     roomMessage = ` комната для `;
@@ -80,28 +80,52 @@ const getCapacity = (pin) => {
 };
 
 const getPhotos = (pin, cardElement) => {
-  let randomPhotos = pin.offer.photos;
-  let photosElement = cardElement.querySelector(`.popup__photos`);
-  let photoElement = photosElement.querySelector(`.popup__photo`);
+  const randomPhotos = pin.offer.photos;
+  const photosElement = cardElement.querySelector(`.popup__photos`);
+  const photoElement = photosElement.querySelector(`.popup__photo`);
 
-  for (let i = 0; i < randomPhotos.length - 1; i++) {
-    photosElement.appendChild(photoElement.cloneNode(true));
+  const photosFragment = document.createDocumentFragment();
+
+  for (let i = 0; i < randomPhotos.length; i++) {
+    if (i === 0) {
+      photoElement.src = randomPhotos[i];
+    } else {
+      photosFragment.appendChild(createPhoto(randomPhotos[i], photoElement));
+    }
   }
 
-  let photoList = photosElement.querySelectorAll(`.popup__photo`);
+  if (photosFragment.children.length) {
+    photosElement.appendChild(photosFragment);
+  }
+};
 
-  photoList.forEach(function (photo, i) {
-    photo.setAttribute(`src`, randomPhotos[i]);
-  });
+const createPhoto = (src, photoTemplate) => {
+  const photoElement = photoTemplate.cloneNode(true);
+  photoElement.src = src;
+  return photoElement;
+};
+
+const setTextContent = (block, element) => {
+  const text = (element === undefined) ? block.classList.add(`hidden`) : block.textContent = element;
+  return text;
+};
+
+const setTextTime = (block, el1, el2) => {
+  const text = ((el1 === undefined) || (el2 === undefined)) ? block.classList.add(`hidden`) : block.textContent = `Заезд после ` + el1 + `, выезд до ` + el2;
+  return text;
+};
+
+const setAvatar = (block, element) => {
+  return (element === undefined) ? block.classList.add(`hidden`) : block.setAttribute(`src`, element);
 };
 
 const getArrayPins = (pinsCount) => {
-  let pins = [];
+  const pins = [];
 
   for (let i = 0; i < pinsCount; i++) {
-    let x = getRandomInt(MIN_X, MAX_X);
-    let y = getRandomInt(MIN_Y, MAX_Y);
-    let photoIndex = i + 1;
+    const x = getRandomInt(MIN_X, MAX_X);
+    const y = getRandomInt(MIN_Y, MAX_Y);
+    const photoIndex = i + 1;
 
     pins.push({
       'author': {
@@ -129,10 +153,10 @@ const getArrayPins = (pinsCount) => {
   return pins;
 };
 
-let pins = getArrayPins(PINS_COUNT);
+const pins = getArrayPins(PINS_COUNT);
 
 const renderPin = (pin) => {
-  let pinElement = pinTemplate.cloneNode(true);
+  const pinElement = pinTemplate.cloneNode(true);
   pinElement.style.left = (pin.location.x - PIN_HALF_WIDTH) + `px`;
   pinElement.style.top = (pin.location.y - PIN_HEIGHT) + `px`;
   pinElement.querySelector(`img`).setAttribute(`alt`, pin.offer.title);
@@ -142,27 +166,29 @@ const renderPin = (pin) => {
 };
 
 const renderCard = (pin) => {
-  let cardElement = cardTemplate.cloneNode(true);
+  const cardElement = cardTemplate.cloneNode(true);
+
   getPhotos(pin, cardElement);
-  cardElement.querySelector(`.popup__title`).textContent = pin.offer.title;
-  cardElement.querySelector(`.popup__text--address`).textContent = pin.offer.address;
-  cardElement.querySelector(`.popup__text--price`).textContent = pin.offer.price + ` ₽/ночь`;
-  cardElement.querySelector(`.popup__type`).textContent = getLivingType(pin);
-  cardElement.querySelector(`.popup__text--capacity`).textContent = getCapacity(pin);
-  cardElement.querySelector(`.popup__text--time`).textContent = `Заезд после ` + pin.offer.checkin + `, выезд до ` + pin.offer.checkout;
-  cardElement.querySelector(`.popup__features`).textContent = pin.offer.features;
-  cardElement.querySelector(`.popup__description`).textContent = pin.offer.description;
-  cardElement.querySelector(`.popup__avatar`).setAttribute(`src`, pin.author.avatar);
+  setTextContent(cardElement.querySelector(`.popup__title`), pin.offer.title);
+  setTextContent(cardElement.querySelector(`.popup__text--address`), pin.offer.address);
+  setTextContent(cardElement.querySelector(`.popup__text--price`), pin.offer.price + ` ₽/ночь`);
+  setTextContent(cardElement.querySelector(`.popup__type`), getLivingType(pin));
+  setTextContent(cardElement.querySelector(`.popup__text--capacity`), getCapacity(pin));
+  setTextContent(cardElement.querySelector(`.popup__features`), pin.offer.features);
+  setTextContent(cardElement.querySelector(`.popup__description`), pin.offer.description);
+  setTextTime(cardElement.querySelector(`.popup__text--time`), pin.offer.checkin, pin.offer.checkout);
+  setAvatar(cardElement.querySelector(`.popup__avatar`), pin.author.avatar);
+
   return cardElement;
 };
 
-let pinsFragment = document.createDocumentFragment();
+const pinsFragment = document.createDocumentFragment();
 for (let i = 0; i < pins.length; i++) {
   pinsFragment.appendChild(renderPin(pins[i]));
 }
 pinListElement.appendChild(pinsFragment);
 
-let cardsFragment = document.createDocumentFragment();
+const cardsFragment = document.createDocumentFragment();
 for (let i = 0; i < pins.length; i++) {
   cardsFragment.appendChild(renderCard(pins[i]));
 }
