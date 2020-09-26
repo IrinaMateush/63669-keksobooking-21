@@ -66,17 +66,17 @@ const getLivingType = (pin) => {
 
 const getCapacity = (pin) => {
   let roomMessage = ``;
-  let guestsMessage = (pin.offer.guests === 1) ? pin.offer.guests + ` гостя` : pin.offer.guests + ` гостей`;
+  let guestsMessage = pin.offer.guests + (pin.offer.guests === 1 ? ` гостя` : ` гостей`);
 
   if (pin.offer.rooms === 1) {
-    roomMessage = pin.offer.rooms + ` комната для `;
+    roomMessage = ` комната для `;
   } else if ((pin.offer.rooms > 1) && (pin.offer.rooms < 5)) {
-    roomMessage = pin.offer.rooms + ` комнаты для `;
+    roomMessage = ` комнаты для `;
   } else {
-    roomMessage = pin.offer.rooms + ` комнат для `;
+    roomMessage = ` комнат для `;
   }
 
-  return roomMessage + guestsMessage;
+  return pin.offer.rooms + roomMessage + guestsMessage;
 };
 
 const getPhotos = (pin, cardElement) => {
@@ -141,12 +141,6 @@ const renderPin = (pin) => {
   return pinElement;
 };
 
-let pinsFragment = document.createDocumentFragment();
-for (let i = 0; i < pins.length; i++) {
-  pinsFragment.appendChild(renderPin(pins[i]));
-}
-pinListElement.appendChild(pinsFragment);
-
 const renderCard = (pin) => {
   let cardElement = cardTemplate.cloneNode(true);
   getPhotos(pin, cardElement);
@@ -161,6 +155,12 @@ const renderCard = (pin) => {
   cardElement.querySelector(`.popup__avatar`).setAttribute(`src`, pin.author.avatar);
   return cardElement;
 };
+
+let pinsFragment = document.createDocumentFragment();
+for (let i = 0; i < pins.length; i++) {
+  pinsFragment.appendChild(renderPin(pins[i]));
+}
+pinListElement.appendChild(pinsFragment);
 
 let cardsFragment = document.createDocumentFragment();
 for (let i = 0; i < pins.length; i++) {
