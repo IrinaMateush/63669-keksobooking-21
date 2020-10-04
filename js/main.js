@@ -17,6 +17,7 @@ const PINS_COUNT = 8;
 const PIN_HALF_WIDTH = 23;
 const PIN_HEIGHT = 64;
 const MAIN_PIN_TAILS_HEIGHT = 22;
+const LEFT_MOUSE_BUTTON = 1;
 
 const pinListElement = document.querySelector(`.map__pins`);
 const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
@@ -33,36 +34,37 @@ const MAX_X = pinListElement.getBoundingClientRect().width;
 
 const map = document.querySelector(`.map`);
 const mapFilters = map.querySelector(`.map__filters-container`);
-
 const noticeForm = document.querySelector(`form.ad-form`);
-const noticeHeader = noticeForm.querySelector(`.ad-form-header`);
-const noticeTitle = noticeForm.querySelector(`#title`);
-const noticeAddress = noticeForm.querySelector(`#address`);
-const noticeType = noticeForm.querySelector(`#type`);
-const noticePrice = noticeForm.querySelector(`#price`);
-const noticeTime = noticeForm.querySelector(`.ad-form__element--time`);
+
+const mapSelectFilters = mapFilters.querySelectorAll(`.map__filter`);
+const addFormElements = document.querySelectorAll(`.ad-form__element`);
+
+const noticeAvatar = noticeForm.querySelector(`#avatar`);
 const noticeRooms = noticeForm.querySelector(`#room_number`);
 const noticeCapacity = noticeForm.querySelector(`#capacity`);
-const noticeFeatures = noticeForm.querySelector(`.features`);
-const noticeDescription = noticeForm.querySelector(`#description`);
-const noticeImages = noticeForm.querySelector(`#images`);
-const noticeSubmit = noticeForm.querySelector(`.ad-form__element--submit`);
+const noticeAddress = noticeForm.querySelector(`#address`);
+const noticeSubmit = noticeForm.querySelector(`.ad-form__submit`);
+const mapFeatures = noticeForm.querySelector(`.map__features`);
 
 mapFilters.classList.add(`ad-form--disabled`);
 noticeForm.classList.add(`ad-form--disabled`);
-noticeHeader.setAttribute(`disabled`, `disabled`);
-noticeTitle.setAttribute(`disabled`, `disabled`);
+noticeAvatar.setAttribute(`disabled`, `disabled`);
 noticeAddress.setAttribute(`placeholder`, mainPinCenterX + `, ` + mainPinCenterY);
-noticeAddress.setAttribute(`disabled`, `disabled`);
-noticeType.setAttribute(`disabled`, `disabled`);
-noticePrice.setAttribute(`disabled`, `disabled`);
-noticeTime.setAttribute(`disabled`, `disabled`);
-noticeRooms.setAttribute(`disabled`, `disabled`);
-noticeCapacity.setAttribute(`disabled`, `disabled`);
-noticeFeatures.setAttribute(`disabled`, `disabled`);
-noticeDescription.setAttribute(`disabled`, `disabled`);
-noticeImages.setAttribute(`disabled`, `disabled`);
-noticeSubmit.setAttribute(`disabled`, `disabled`);
+
+const disabledForm = function (elements) {
+  for (let element of elements) {
+    element.setAttribute(`disabled`, `disabled`);
+  }
+};
+
+const activateForm = function (elements) {
+  for (let element of elements) {
+    element.removeAttribute(`disabled`, `disabled`);
+  }
+};
+
+disabledForm(mapSelectFilters);
+disabledForm(addFormElements);
 
 const getRandomInt = (min, max) => {
   min = Math.ceil(min);
@@ -85,7 +87,7 @@ const getFeatures = (features) => {
   }).join(`, `);
 };
 
-const availabilityRooms = () => {
+const checkAvailability = () => {
   if ((noticeRooms.value === `1`) && (noticeCapacity.value !== `1`)) {
     noticeRooms.setCustomValidity(`1 комната только для 1 гостя`);
   } else if ((noticeRooms.value === `100`) && (noticeCapacity.value !== `0`)) {
@@ -100,9 +102,11 @@ const availabilityRooms = () => {
   noticeRooms.reportValidity();
 };
 
-mainPin.onclick = function () {
-  activationСard();
-};
+mainPin.addEventListener(`mousedown`, function (evt) {
+  if (evt.which === LEFT_MOUSE_BUTTON) {
+    activationСard();
+  }
+});
 
 mainPin.addEventListener(`keydown`, function (evt) {
   if (evt.key === `Enter`) {
@@ -261,19 +265,10 @@ const activationСard = () => {
   map.classList.remove(`map--faded`);
   mapFilters.classList.remove(`ad-form--disabled`);
   noticeForm.classList.remove(`ad-form--disabled`);
-  noticeHeader.removeAttribute(`disabled`);
-  noticeTitle.removeAttribute(`disabled`);
+  noticeAvatar.removeAttribute(`disabled`, `disabled`);
+  activateForm(mapSelectFilters);
+  activateForm(addFormElements);
   noticeAddress.setAttribute(`value`, mainPinCenterX + `, ` + mainPinTailY);
-  noticeAddress.removeAttribute(`disabled`);
-  noticeType.removeAttribute(`disabled`);
-  noticePrice.removeAttribute(`disabled`);
-  noticeTime.removeAttribute(`disabled`);
-  noticeRooms.removeAttribute(`disabled`);
-  noticeCapacity.removeAttribute(`disabled`);
-  noticeFeatures.removeAttribute(`disabled`);
-  noticeDescription.removeAttribute(`disabled`);
-  noticeImages.removeAttribute(`disabled`);
-  noticeSubmit.removeAttribute(`disabled`);
 
   const pinsFragment = document.createDocumentFragment();
   for (let i = 0; i < pins.length; i++) {
@@ -293,9 +288,9 @@ noticeSubmit.addEventListener(`click`, function (evt) {
 });
 
 noticeCapacity.addEventListener(`change`, function () {
-  availabilityRooms();
+  checkAvailability();
 });
 
 noticeRooms.addEventListener(`change`, function () {
-  availabilityRooms();
+  checkAvailability();
 });
