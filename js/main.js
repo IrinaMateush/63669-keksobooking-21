@@ -44,7 +44,6 @@ const noticeRooms = noticeForm.querySelector(`#room_number`);
 const noticeCapacity = noticeForm.querySelector(`#capacity`);
 const noticeAddress = noticeForm.querySelector(`#address`);
 const noticeSubmit = noticeForm.querySelector(`.ad-form__submit`);
-const mapFeatures = noticeForm.querySelector(`.map__features`);
 
 mapFilters.classList.add(`ad-form--disabled`);
 noticeForm.classList.add(`ad-form--disabled`);
