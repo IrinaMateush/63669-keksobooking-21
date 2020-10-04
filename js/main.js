@@ -16,17 +16,54 @@ const CHECKOUT = [`12:00`, `13:00`, `14:00`];
 const PINS_COUNT = 8;
 const PIN_HALF_WIDTH = 23;
 const PIN_HEIGHT = 64;
+const MAIN_PIN_TAILS_HEIGHT = 22;
+const LEFT_MOUSE_BUTTON = 1;
 
 const pinListElement = document.querySelector(`.map__pins`);
 const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
-const cardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
+//  const cardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
+const mainPin = document.querySelector(`.map__pin--main`);
+
+const mainPinHalf = mainPin.getBoundingClientRect().width / 2;
+const mainPinCenterX = Math.round(mainPin.getBoundingClientRect().x + mainPinHalf);
+const mainPinCenterY = Math.round(mainPin.getBoundingClientRect().y + mainPinHalf);
+const mainPinTailY = Math.round(mainPinCenterY + mainPinHalf + MAIN_PIN_TAILS_HEIGHT);
 
 const MIN_X = pinListElement.getBoundingClientRect().x;
 const MAX_X = pinListElement.getBoundingClientRect().width;
 
 const map = document.querySelector(`.map`);
 const mapFilters = map.querySelector(`.map__filters-container`);
-map.classList.remove(`map--faded`);
+const noticeForm = document.querySelector(`form.ad-form`);
+
+const mapSelectFilters = mapFilters.querySelectorAll(`.map__filter`);
+const addFormElements = document.querySelectorAll(`.ad-form__element`);
+
+const noticeAvatar = noticeForm.querySelector(`#avatar`);
+const noticeRooms = noticeForm.querySelector(`#room_number`);
+const noticeCapacity = noticeForm.querySelector(`#capacity`);
+const noticeAddress = noticeForm.querySelector(`#address`);
+const noticeSubmit = noticeForm.querySelector(`.ad-form__submit`);
+
+mapFilters.classList.add(`ad-form--disabled`);
+noticeForm.classList.add(`ad-form--disabled`);
+noticeAvatar.setAttribute(`disabled`, `disabled`);
+noticeAddress.setAttribute(`placeholder`, mainPinCenterX + `, ` + mainPinCenterY);
+
+const disabledForm = function (elements) {
+  for (let element of elements) {
+    element.setAttribute(`disabled`, `disabled`);
+  }
+};
+
+const activateForm = function (elements) {
+  for (let element of elements) {
+    element.removeAttribute(`disabled`, `disabled`);
+  }
+};
+
+disabledForm(mapSelectFilters);
+disabledForm(addFormElements);
 
 const getRandomInt = (min, max) => {
   min = Math.ceil(min);
@@ -49,6 +86,34 @@ const getFeatures = (features) => {
   }).join(`, `);
 };
 
+const checkAvailability = () => {
+  if ((noticeRooms.value === `1`) && (noticeCapacity.value !== `1`)) {
+    noticeRooms.setCustomValidity(`1 комната только для 1 гостя`);
+  } else if ((noticeRooms.value === `100`) && (noticeCapacity.value !== `0`)) {
+    noticeRooms.setCustomValidity(`Is not correct`);
+  } else if ((noticeRooms.value === `2`) && ((noticeCapacity.value === `3`) || (noticeCapacity.value === `0`))) {
+    noticeRooms.setCustomValidity(`Для 2 и менее гостей`);
+  } else if ((noticeRooms.value === `3`) && (noticeCapacity.value === `0`)) {
+    noticeRooms.setCustomValidity(`Для 3 или менее гостей`);
+  } else {
+    noticeRooms.setCustomValidity(``);
+  }
+  noticeRooms.reportValidity();
+};
+
+mainPin.addEventListener(`mousedown`, function (evt) {
+  if (evt.which === LEFT_MOUSE_BUTTON) {
+    activationСard();
+  }
+});
+
+mainPin.addEventListener(`keydown`, function (evt) {
+  if (evt.key === `Enter`) {
+    activationСard();
+  }
+});
+
+/*
 const getLivingType = (pin) => {
   switch (pin.offer.type) {
     case `palace`:
@@ -110,14 +175,19 @@ const setTextContent = (block, element) => {
   return text;
 };
 
-const setTextTime = (block, el1, el2) => {
-  const text = ((el1 === undefined) || (el2 === undefined)) ? block.classList.add(`hidden`) : block.textContent = `Заезд после ` + el1 + `, выезд до ` + el2;
-  return text;
+const setTextTime = (block, dateStart, dateEnd) => {
+  if ((dateStart === undefined) || (dateEnd === undefined)) {
+    return block.classList.add(`hidden`);
+  } else {
+    const text = block.textContent = `Заезд после ` + dateStart + `, выезд до ` + dateEnd;
+    return text;
+  }
 };
 
 const setAvatar = (block, element) => {
   return (element === undefined) ? block.classList.add(`hidden`) : block.setAttribute(`src`, element);
 };
+*/
 
 const getArrayPins = (pinsCount) => {
   const pins = [];
@@ -165,6 +235,7 @@ const renderPin = (pin) => {
   return pinElement;
 };
 
+/*
 const renderCard = (pin) => {
   const cardElement = cardTemplate.cloneNode(true);
 
@@ -182,14 +253,43 @@ const renderCard = (pin) => {
   return cardElement;
 };
 
-const pinsFragment = document.createDocumentFragment();
-for (let i = 0; i < pins.length; i++) {
-  pinsFragment.appendChild(renderPin(pins[i]));
-}
-pinListElement.appendChild(pinsFragment);
-
 const cardsFragment = document.createDocumentFragment();
 for (let i = 0; i < pins.length; i++) {
   cardsFragment.appendChild(renderCard(pins[i]));
 }
 map.insertBefore(cardsFragment, mapFilters);
+*/
+
+const activationСard = () => {
+  map.classList.remove(`map--faded`);
+  mapFilters.classList.remove(`ad-form--disabled`);
+  noticeForm.classList.remove(`ad-form--disabled`);
+  noticeAvatar.removeAttribute(`disabled`, `disabled`);
+  activateForm(mapSelectFilters);
+  activateForm(addFormElements);
+  noticeAddress.setAttribute(`value`, mainPinCenterX + `, ` + mainPinTailY);
+
+  const pinsFragment = document.createDocumentFragment();
+  for (let i = 0; i < pins.length; i++) {
+    pinsFragment.appendChild(renderPin(pins[i]));
+  }
+  pinListElement.appendChild(pinsFragment);
+};
+
+noticeSubmit.addEventListener(`click`, function (evt) {
+  if ((noticeRooms.value === `1`) && (noticeCapacity.value !== `1`)) {
+    noticeRooms.setCustomValidity(`1 комната только для 1 гостя`);
+    evt.preventDefault();
+  } else {
+    noticeRooms.setCustomValidity(``);
+  }
+  noticeRooms.reportValidity();
+});
+
+noticeCapacity.addEventListener(`change`, function () {
+  checkAvailability();
+});
+
+noticeRooms.addEventListener(`change`, function () {
+  checkAvailability();
+});
