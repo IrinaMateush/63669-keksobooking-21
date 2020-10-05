@@ -43,6 +43,10 @@ const noticeAvatar = noticeForm.querySelector(`#avatar`);
 const noticeRooms = noticeForm.querySelector(`#room_number`);
 const noticeCapacity = noticeForm.querySelector(`#capacity`);
 const noticeAddress = noticeForm.querySelector(`#address`);
+const noticeTimeIn = noticeForm.querySelector(`#timein`);
+const noticeTimeOut = noticeForm.querySelector(`#timeout`);
+const noticeHousing = noticeForm.querySelector(`#type`);
+const noticePrice = noticeForm.querySelector(`#price`);
 const noticeSubmit = noticeForm.querySelector(`.ad-form__submit`);
 
 mapFilters.classList.add(`ad-form--disabled`);
@@ -101,6 +105,15 @@ const checkAvailability = () => {
   noticeRooms.reportValidity();
 };
 
+const synchronizeTime = (timeIn, timeOut) => {
+  let times = timeIn.querySelectorAll(`option`);
+  for (let time of times) {
+    if (time.value === timeOut.value) {
+      time.selected = true;
+    }
+  }
+};
+
 mainPin.addEventListener(`mousedown`, function (evt) {
   if (evt.which === LEFT_MOUSE_BUTTON) {
     activationСard();
@@ -112,6 +125,21 @@ mainPin.addEventListener(`keydown`, function (evt) {
     activationСard();
   }
 });
+
+const getLivingTypeCost = function (livingType) {
+  switch (livingType.value) {
+    case `palace`:
+      return 10000;
+    case `flat`:
+      return 1000;
+    case `house`:
+      return 5000;
+    case `bungalow`:
+      return 0;
+    default:
+      return `Неожиданный тип жилья`;
+  }
+};
 
 /*
 const getLivingType = (pin) => {
@@ -292,4 +320,18 @@ noticeCapacity.addEventListener(`change`, function () {
 
 noticeRooms.addEventListener(`change`, function () {
   checkAvailability();
+});
+
+noticeTimeIn.addEventListener(`change`, function () {
+  synchronizeTime(noticeTimeOut, noticeTimeIn);
+});
+
+noticeTimeOut.addEventListener(`change`, function () {
+  synchronizeTime(noticeTimeIn, noticeTimeOut);
+});
+
+noticeHousing.addEventListener(`change`, function () {
+  const cost = getLivingTypeCost(noticeHousing);
+  noticePrice.setAttribute(`placeholder`, cost);
+  noticePrice.setAttribute(`min`, cost);
 });
