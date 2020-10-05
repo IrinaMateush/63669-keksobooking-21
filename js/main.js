@@ -21,7 +21,7 @@ const LEFT_MOUSE_BUTTON = 1;
 
 const pinListElement = document.querySelector(`.map__pins`);
 const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
-//  const cardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
+const cardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
 const mainPin = document.querySelector(`.map__pin--main`);
 
 const mainPinHalf = mainPin.getBoundingClientRect().width / 2;
@@ -141,7 +141,6 @@ const getLivingTypeCost = function (livingType) {
   }
 };
 
-/*
 const getLivingType = (pin) => {
   switch (pin.offer.type) {
     case `palace`:
@@ -215,7 +214,6 @@ const setTextTime = (block, dateStart, dateEnd) => {
 const setAvatar = (block, element) => {
   return (element === undefined) ? block.classList.add(`hidden`) : block.setAttribute(`src`, element);
 };
-*/
 
 const getArrayPins = (pinsCount) => {
   const pins = [];
@@ -257,13 +255,12 @@ const renderPin = (pin) => {
   const pinElement = pinTemplate.cloneNode(true);
   pinElement.style.left = (pin.location.x - PIN_HALF_WIDTH) + `px`;
   pinElement.style.top = (pin.location.y - PIN_HEIGHT) + `px`;
+  pinElement.setAttribute(`tabindex`, 0);
   pinElement.querySelector(`img`).setAttribute(`alt`, pin.offer.title);
   pinElement.querySelector(`img`).setAttribute(`src`, pin.author.avatar);
-
   return pinElement;
 };
 
-/*
 const renderCard = (pin) => {
   const cardElement = cardTemplate.cloneNode(true);
 
@@ -281,12 +278,20 @@ const renderCard = (pin) => {
   return cardElement;
 };
 
-const cardsFragment = document.createDocumentFragment();
-for (let i = 0; i < pins.length; i++) {
-  cardsFragment.appendChild(renderCard(pins[i]));
-}
-map.insertBefore(cardsFragment, mapFilters);
-*/
+const openCard = (pinsAvatar) => {
+  const cardPopup = document.querySelector(`.popup`);
+  if (cardPopup !== null) {
+    cardPopup.remove();
+  }
+
+  const cardsFragment = document.createDocumentFragment();
+  for (let pin of pins) {
+    if (pin.author.avatar === pinsAvatar) {
+      cardsFragment.appendChild(renderCard(pin));
+    }
+  }
+  map.insertBefore(cardsFragment, mapFilters);
+};
 
 const activationСard = () => {
   map.classList.remove(`map--faded`);
@@ -298,10 +303,35 @@ const activationСard = () => {
   noticeAddress.setAttribute(`value`, mainPinCenterX + `, ` + mainPinTailY);
 
   const pinsFragment = document.createDocumentFragment();
-  for (let i = 0; i < pins.length; i++) {
-    pinsFragment.appendChild(renderPin(pins[i]));
+  for (let pin of pins) {
+    pinsFragment.appendChild(renderPin(pin));
   }
   pinListElement.appendChild(pinsFragment);
+
+  const pinElements = document.querySelectorAll(`.map__pin`);
+
+  for (let pinElement of pinElements) {
+    pinElement.addEventListener(`click`, function () {
+      if (!pinElement.classList.contains(`map__pin--main`)) {
+        const pinsAvatar = pinElement.querySelector(`img`).getAttribute(`src`);
+        openCard(pinsAvatar);
+
+        const cardPopup = document.querySelector(`.popup`);
+        const popupClose = document.querySelector(`.popup__close`);
+        popupClose.addEventListener(`click`, function () {
+          cardPopup.remove();
+        });
+
+        document.addEventListener(`keydown`, function (evt) {
+          if (evt.key === `Escape`) {
+            evt.preventDefault();
+            cardPopup.remove();
+          }
+        });
+
+      }
+    });
+  }
 };
 
 noticeSubmit.addEventListener(`click`, function (evt) {
