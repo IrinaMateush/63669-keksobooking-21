@@ -293,6 +293,21 @@ const openCard = (pinsAvatar) => {
   map.insertBefore(cardsFragment, mapFilters);
 };
 
+const closePopup = () => {
+  const cardPopup = document.querySelector(`.popup`);
+  const popupClose = document.querySelector(`.popup__close`);
+  popupClose.addEventListener(`click`, function () {
+    cardPopup.remove();
+  });
+
+  document.addEventListener(`keydown`, function (evt) {
+    if (evt.key === `Escape`) {
+      evt.preventDefault();
+      cardPopup.remove();
+    }
+  });
+};
+
 const activationСard = () => {
   map.classList.remove(`map--faded`);
   mapFilters.classList.remove(`ad-form--disabled`);
@@ -308,28 +323,13 @@ const activationСard = () => {
   }
   pinListElement.appendChild(pinsFragment);
 
-  const pinElements = document.querySelectorAll(`.map__pin`);
+  const pinElements = document.querySelectorAll(`.map__pin:not(.map__pin--main)`);
 
   for (let pinElement of pinElements) {
     pinElement.addEventListener(`click`, function () {
-      if (!pinElement.classList.contains(`map__pin--main`)) {
-        const pinsAvatar = pinElement.querySelector(`img`).getAttribute(`src`);
-        openCard(pinsAvatar);
-
-        const cardPopup = document.querySelector(`.popup`);
-        const popupClose = document.querySelector(`.popup__close`);
-        popupClose.addEventListener(`click`, function () {
-          cardPopup.remove();
-        });
-
-        document.addEventListener(`keydown`, function (evt) {
-          if (evt.key === `Escape`) {
-            evt.preventDefault();
-            cardPopup.remove();
-          }
-        });
-
-      }
+      const pinsAvatar = pinElement.querySelector(`img`).getAttribute(`src`);
+      openCard(pinsAvatar);
+      closePopup();
     });
   }
 };
