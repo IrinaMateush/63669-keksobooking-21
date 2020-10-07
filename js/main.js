@@ -21,7 +21,7 @@ const LEFT_MOUSE_BUTTON = 1;
 
 const pinListElement = document.querySelector(`.map__pins`);
 const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
-//  const cardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
+const cardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
 const mainPin = document.querySelector(`.map__pin--main`);
 
 const mainPinHalf = mainPin.getBoundingClientRect().width / 2;
@@ -43,6 +43,10 @@ const noticeAvatar = noticeForm.querySelector(`#avatar`);
 const noticeRooms = noticeForm.querySelector(`#room_number`);
 const noticeCapacity = noticeForm.querySelector(`#capacity`);
 const noticeAddress = noticeForm.querySelector(`#address`);
+const noticeTimeIn = noticeForm.querySelector(`#timein`);
+const noticeTimeOut = noticeForm.querySelector(`#timeout`);
+const noticeHousing = noticeForm.querySelector(`#type`);
+const noticePrice = noticeForm.querySelector(`#price`);
 const noticeSubmit = noticeForm.querySelector(`.ad-form__submit`);
 
 mapFilters.classList.add(`ad-form--disabled`);
@@ -101,6 +105,15 @@ const checkAvailability = () => {
   noticeRooms.reportValidity();
 };
 
+const synchronizeTime = (timeIn, timeOut) => {
+  let times = timeIn.querySelectorAll(`option`);
+  for (let time of times) {
+    if (time.value === timeOut.value) {
+      time.selected = true;
+    }
+  }
+};
+
 mainPin.addEventListener(`mousedown`, function (evt) {
   if (evt.which === LEFT_MOUSE_BUTTON) {
     activationСard();
@@ -113,7 +126,21 @@ mainPin.addEventListener(`keydown`, function (evt) {
   }
 });
 
-/*
+const getLivingTypeCost = function (livingType) {
+  switch (livingType.value) {
+    case `palace`:
+      return 10000;
+    case `flat`:
+      return 1000;
+    case `house`:
+      return 5000;
+    case `bungalow`:
+      return 0;
+    default:
+      return `Неожиданный тип жилья`;
+  }
+};
+
 const getLivingType = (pin) => {
   switch (pin.offer.type) {
     case `palace`:
@@ -187,7 +214,6 @@ const setTextTime = (block, dateStart, dateEnd) => {
 const setAvatar = (block, element) => {
   return (element === undefined) ? block.classList.add(`hidden`) : block.setAttribute(`src`, element);
 };
-*/
 
 const getArrayPins = (pinsCount) => {
   const pins = [];
@@ -229,13 +255,12 @@ const renderPin = (pin) => {
   const pinElement = pinTemplate.cloneNode(true);
   pinElement.style.left = (pin.location.x - PIN_HALF_WIDTH) + `px`;
   pinElement.style.top = (pin.location.y - PIN_HEIGHT) + `px`;
+  pinElement.setAttribute(`tabindex`, 0);
   pinElement.querySelector(`img`).setAttribute(`alt`, pin.offer.title);
   pinElement.querySelector(`img`).setAttribute(`src`, pin.author.avatar);
-
   return pinElement;
 };
 
-/*
 const renderCard = (pin) => {
   const cardElement = cardTemplate.cloneNode(true);
 
@@ -253,12 +278,35 @@ const renderCard = (pin) => {
   return cardElement;
 };
 
-const cardsFragment = document.createDocumentFragment();
-for (let i = 0; i < pins.length; i++) {
-  cardsFragment.appendChild(renderCard(pins[i]));
-}
-map.insertBefore(cardsFragment, mapFilters);
-*/
+const openCard = (pinsAvatar) => {
+  const cardPopup = document.querySelector(`.popup`);
+  if (cardPopup !== null) {
+    cardPopup.remove();
+  }
+
+  const cardsFragment = document.createDocumentFragment();
+  for (let pin of pins) {
+    if (pin.author.avatar === pinsAvatar) {
+      cardsFragment.appendChild(renderCard(pin));
+    }
+  }
+  map.insertBefore(cardsFragment, mapFilters);
+};
+
+const closePopup = () => {
+  const cardPopup = document.querySelector(`.popup`);
+  const popupClose = document.querySelector(`.popup__close`);
+  popupClose.addEventListener(`click`, function () {
+    cardPopup.remove();
+  });
+
+  document.addEventListener(`keydown`, function (evt) {
+    if (evt.key === `Escape`) {
+      evt.preventDefault();
+      cardPopup.remove();
+    }
+  });
+};
 
 const activationСard = () => {
   map.classList.remove(`map--faded`);
@@ -270,10 +318,20 @@ const activationСard = () => {
   noticeAddress.setAttribute(`value`, mainPinCenterX + `, ` + mainPinTailY);
 
   const pinsFragment = document.createDocumentFragment();
-  for (let i = 0; i < pins.length; i++) {
-    pinsFragment.appendChild(renderPin(pins[i]));
+  for (let pin of pins) {
+    pinsFragment.appendChild(renderPin(pin));
   }
   pinListElement.appendChild(pinsFragment);
+
+  const pinElements = document.querySelectorAll(`.map__pin:not(.map__pin--main)`);
+
+  for (let pinElement of pinElements) {
+    pinElement.addEventListener(`click`, function () {
+      const pinsAvatar = pinElement.querySelector(`img`).getAttribute(`src`);
+      openCard(pinsAvatar);
+      closePopup();
+    });
+  }
 };
 
 noticeSubmit.addEventListener(`click`, function (evt) {
@@ -292,4 +350,18 @@ noticeCapacity.addEventListener(`change`, function () {
 
 noticeRooms.addEventListener(`change`, function () {
   checkAvailability();
+});
+
+noticeTimeIn.addEventListener(`change`, function () {
+  synchronizeTime(noticeTimeOut, noticeTimeIn);
+});
+
+noticeTimeOut.addEventListener(`change`, function () {
+  synchronizeTime(noticeTimeIn, noticeTimeOut);
+});
+
+noticeHousing.addEventListener(`change`, function () {
+  const cost = getLivingTypeCost(noticeHousing);
+  noticePrice.setAttribute(`placeholder`, cost);
+  noticePrice.setAttribute(`min`, cost);
 });
