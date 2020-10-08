@@ -13,18 +13,6 @@
   const noticeSubmit = noticeForm.querySelector(`.ad-form__submit`);
   const addFormElements = document.querySelectorAll(`.ad-form__element`);
 
-  window.form = {
-    noticeForm,
-    noticeAvatar,
-    noticeAddress,
-    addFormElements,
-    activateForm: (elements) => {
-      for (let element of elements) {
-        element.removeAttribute(`disabled`, `disabled`);
-      }
-    }
-  };
-
   noticeForm.classList.add(`ad-form--disabled`);
   noticeAvatar.setAttribute(`disabled`, `disabled`);
   noticeAddress.setAttribute(`placeholder`, window.map.mainPinCenterX + `, ` + window.map.mainPinCenterY);
@@ -62,6 +50,12 @@
     }
   };
 
+  const activateForm = (elements) => {
+    for (let element of elements) {
+      element.removeAttribute(`disabled`, `disabled`);
+    }
+  };
+
   noticeSubmit.addEventListener(`click`, function (evt) {
     if ((noticeRooms.value === `1`) && (noticeCapacity.value !== `1`)) {
       noticeRooms.setCustomValidity(`1 комната только для 1 гостя`);
@@ -93,4 +87,13 @@
     noticePrice.setAttribute(`placeholder`, cost);
     noticePrice.setAttribute(`min`, cost);
   });
+
+  window.form = {
+    noticeForm,
+    noticeAvatar,
+    noticeAddress,
+    addFormElements,
+    activateForm: activateForm
+  };
+
 })();

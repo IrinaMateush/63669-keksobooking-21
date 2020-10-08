@@ -12,13 +12,6 @@
 
   const map = document.querySelector(`.map`);
 
-  window.main = {
-    mainPin,
-    map,
-    mainPinCenterX,
-    mainPinCenterY
-  };
-
   const activationСard = () => {
     map.classList.remove(`map--faded`);
     window.map.mapFilters.classList.remove(`ad-form--disabled`);
@@ -56,5 +49,12 @@
       activationСard();
     }
   });
+
+  window.main = {
+    mainPin,
+    map,
+    mainPinCenterX,
+    mainPinCenterY
+  };
 
 })();
