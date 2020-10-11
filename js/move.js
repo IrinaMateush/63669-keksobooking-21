@@ -14,31 +14,44 @@
   const START_BORDER_X = window.main.map.getBoundingClientRect().x;
   const END_BORDER_X = window.main.map.getBoundingClientRect().right;
 
-  window.main.mainPin.addEventListener(`mousedown`, function (evt) { //нажатие мыши
+  window.main.mainPin.addEventListener(`mousedown`, function (evt) {
     evt.preventDefault();
     if (evt.which === LEFT_MOUSE_BUTTON) {
 
-      let startCoords = { //тут началось наше перемещение, слушаем нажатие мыши
-        x: evt.clientX, // clientX, clientY положение мыши на экране от левого верхнего угла
+      let startCoords = {
+        x: evt.clientX,
         y: evt.clientY
       };
 
       const onMouseMove = function (moveEvt) {
         moveEvt.preventDefault();
 
-        const shift = { // вычисляем расстояние между начальными коотдинатами и координатами на которые сместился курсор
+        let shift = {
           x: startCoords.x - moveEvt.clientX,
           y: startCoords.y - moveEvt.clientY
         };
 
-        startCoords = { //перезаписываем начальные коотдинаты после смещения
+        startCoords = {
           x: moveEvt.clientX,
           y: moveEvt.clientY
         };
 
-        //offsetTop - возвращает расстояние текущего элемента по отношению к верхней части родителя.
-        window.main.mainPin.style.top = (window.main.mainPin.offsetTop - shift.y) + `px`; //прописываем новое положение элемента отступ сверху относительно родителя - смещение по y
-        window.main.mainPin.style.left = (window.main.mainPin.offsetLeft - shift.x) + `px`;
+        if (moveEvt.clientY <= START_BORDER_Y) {
+          window.main.mainPin.style.top = START_BORDER_Y;
+          window.main.mainPin.style.left = (window.main.mainPin.offsetLeft - shift.x) + `px`;
+        } else if (moveEvt.clientY >= END_BORDER_Y) {
+          window.main.mainPin.style.top = END_BORDER_Y;
+          window.main.mainPin.style.left = (window.main.mainPin.offsetLeft - shift.x) + `px`;
+        } else if (moveEvt.clientX <= START_BORDER_X) {
+          window.main.mainPin.style.top = (window.main.mainPin.offsetTop - shift.y) + `px`;
+          window.main.mainPin.style.left = START_BORDER_X + mainPinHalf;
+        } else if (moveEvt.clientX >= END_BORDER_X) {
+          window.main.mainPin.style.top = (window.main.mainPin.offsetTop - shift.y) + `px`;
+          window.main.mainPin.style.right = END_BORDER_X - mainPinHalf;
+        } else {
+          window.main.mainPin.style.top = (window.main.mainPin.offsetTop - shift.y) + `px`;
+          window.main.mainPin.style.left = (window.main.mainPin.offsetLeft - shift.x) + `px`;
+        }
       };
 
       const onMouseUp = function (upEvt) {
@@ -52,8 +65,8 @@
         window.form.noticeAddress.setAttribute(`value`, mainPinCenterX + `, ` + mainPinTailY);
       };
 
-      document.addEventListener(`mousemove`, onMouseMove); //перемещение мыши, вызывается на движение в каждый пиксель
-      document.addEventListener(`mouseup`, onMouseUp); //отжатие мыши
+      document.addEventListener(`mousemove`, onMouseMove);
+      document.addEventListener(`mouseup`, onMouseUp);
       window.main.activationСard();
     }
   });
