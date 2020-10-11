@@ -15,7 +15,7 @@
 
   noticeForm.classList.add(`ad-form--disabled`);
   noticeAvatar.setAttribute(`disabled`, `disabled`);
-  noticeAddress.setAttribute(`placeholder`, window.map.mainPinCenterX + `, ` + window.map.mainPinCenterY);
+  noticeAddress.setAttribute(`placeholder`, window.move.mainPinCenterX + `, ` + window.move.mainPinCenterY);
 
   const disabledForm = function (elements) {
     for (let element of elements) {
