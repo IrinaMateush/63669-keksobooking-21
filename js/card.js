@@ -60,7 +60,7 @@
   };
 
   window.card = {
-    renderCard: renderCard
+    renderCard
   };
 
 })();

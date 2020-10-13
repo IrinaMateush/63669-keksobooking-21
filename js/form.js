@@ -93,7 +93,7 @@
     noticeAvatar,
     noticeAddress,
     addFormElements,
-    activateForm: activateForm
+    activateForm
   };
 
 })();

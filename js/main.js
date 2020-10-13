@@ -39,7 +39,7 @@
   window.main = {
     mainPin,
     map,
-    activationСard: activationСard
+    activationСard
   };
 
 })();

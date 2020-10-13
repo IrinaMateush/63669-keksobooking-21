@@ -53,9 +53,9 @@
   window.map = {
     mapFilters,
     mapSelectFilters,
-    renderPin: renderPin,
-    openCard: openCard,
-    closePopup: closePopup
+    renderPin,
+    openCard,
+    closePopup
   };
 
 })();
