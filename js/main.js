@@ -3,6 +3,30 @@
 (function () {
   const mainPin = document.querySelector(`.map__pin--main`);
   const map = document.querySelector(`.map`);
+  const pinListElement = document.querySelector(`.map__pins`);
+  const PINS_COUNT = 8;
+
+  const successLoadHandler = (pins) => {
+    const pinsFragment = document.createDocumentFragment();
+
+    for (let i = 0; i < PINS_COUNT; i++) {
+      pinsFragment.appendChild(window.map.renderPin(pins[i]));
+    }
+
+    pinListElement.appendChild(pinsFragment);
+  };
+
+  const errorLoadHandler = (errorMessage) => {
+    const node = document.createElement(`div`);
+    node.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: red;`;
+    node.style.position = `absolute`;
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = `25px`;
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement(`afterbegin`, node);
+  };
 
   const activationСard = () => {
     map.classList.remove(`map--faded`);
@@ -12,12 +36,7 @@
     window.form.activateForm(window.map.mapSelectFilters);
     window.form.activateForm(window.form.addFormElements);
     window.form.noticeAddress.setAttribute(`value`, window.move.mainPinCenterX + `, ` + window.move.mainPinTailY);
-
-    const pinsFragment = document.createDocumentFragment();
-    for (let pin of window.pin.pins) {
-      pinsFragment.appendChild(window.map.renderPin(pin));
-    }
-    window.pin.pinListElement.appendChild(pinsFragment);
+    window.load(successLoadHandler, errorLoadHandler);
 
     const pinElements = document.querySelectorAll(`.map__pin:not(.map__pin--main)`);
 

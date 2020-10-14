@@ -41,7 +41,6 @@
     return (element === undefined) ? block.classList.add(`hidden`) : block.setAttribute(`src`, element);
   };
 
-
   const renderCard = (pin) => {
     const cardElement = cardTemplate.cloneNode(true);
 
