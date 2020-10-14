@@ -2,14 +2,6 @@
 
 (function () {
   const mainPin = document.querySelector(`.map__pin--main`);
-  const mainPinHalf = mainPin.getBoundingClientRect().width / 2;
-  const mainPinCenterX = Math.round(mainPin.getBoundingClientRect().x + mainPinHalf);
-  const mainPinCenterY = Math.round(mainPin.getBoundingClientRect().y + mainPinHalf);
-  const MAIN_PIN_TAILS_HEIGHT = 22;
-  const mainPinTailY = Math.round(mainPinCenterY + mainPinHalf + MAIN_PIN_TAILS_HEIGHT);
-
-  const LEFT_MOUSE_BUTTON = 1;
-
   const map = document.querySelector(`.map`);
 
   const activationСard = () => {
@@ -19,7 +11,7 @@
     window.form.noticeAvatar.removeAttribute(`disabled`, `disabled`);
     window.form.activateForm(window.map.mapSelectFilters);
     window.form.activateForm(window.form.addFormElements);
-    window.form.noticeAddress.setAttribute(`value`, mainPinCenterX + `, ` + mainPinTailY);
+    window.form.noticeAddress.setAttribute(`value`, window.move.mainPinCenterX + `, ` + window.move.mainPinTailY);
 
     const pinsFragment = document.createDocumentFragment();
     for (let pin of window.pin.pins) {
@@ -38,12 +30,6 @@
     }
   };
 
-  mainPin.addEventListener(`mousedown`, function (evt) {
-    if (evt.which === LEFT_MOUSE_BUTTON) {
-      activationСard();
-    }
-  });
-
   mainPin.addEventListener(`keydown`, function (evt) {
     if (evt.key === `Enter`) {
       activationСard();
@@ -53,8 +39,7 @@
   window.main = {
     mainPin,
     map,
-    mainPinCenterX,
-    mainPinCenterY
+    activationСard
   };
 
 })();

@@ -86,12 +86,12 @@
     TYPES,
     CHECKIN,
     CHECKOUT,
-    getRandomInt: getRandomInt,
-    getArrayRandomLength: getArrayRandomLength,
-    getFeatures: getFeatures,
-    getLivingType: getLivingType,
-    getLivingTypeCost: getLivingTypeCost,
-    getCapacity: getCapacity,
-    createPhoto: createPhoto
+    getRandomInt,
+    getArrayRandomLength,
+    getFeatures,
+    getLivingType,
+    getLivingTypeCost,
+    getCapacity,
+    createPhoto
   };
 })();
