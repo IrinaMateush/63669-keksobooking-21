@@ -3,7 +3,7 @@
 (function () {
   const URL = `https://21.javascript.pages.academy/keksobooking/data`;
 
-  window.load = function (onSuccess, onError) {
+  const load = (onSuccess, onError) => {
     const xhr = new XMLHttpRequest();
     xhr.responseType = `json`;
 
@@ -46,6 +46,20 @@
 
     xhr.open(`GET`, URL);
     xhr.send();
+
+    /*
+    for (let pinElement of pinElements) {
+      pinElement.addEventListener(`click`, function () {
+        const pinsAvatar = pinElement.querySelector(`img`).getAttribute(`src`);
+        window.map.openCard(pinsAvatar);
+        window.map.closePopup();
+      });
+    }
+*/
+  };
+
+  window.load = {
+    load
   };
 
 })();

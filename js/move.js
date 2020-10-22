@@ -70,7 +70,10 @@
       document.addEventListener(`mousemove`, onMouseMove);
       document.addEventListener(`mouseup`, onMouseUp);
 
-      window.main.activationСard();
+      window.main.activationСard(window.load.load(window.main.successLoadHandler, window.main.errorLoadHandler));
+      // но так тоже не работает вывод в консоль
+      // const pinElements = document.querySelectorAll(`.map__pin:not(.map__pin--main)`);
+      // console.log(pinElements);
     }
   });
 
