@@ -6,7 +6,7 @@
   const pinListElement = document.querySelector(`.map__pins`);
   const PINS_COUNT = 8;
 
-  const successLoadHandler = (pins) => {
+  const addPinsToMap = (pins) => {
     const pinsFragment = document.createDocumentFragment();
 
     for (let i = 0; i < PINS_COUNT; i++) {
@@ -15,6 +15,24 @@
 
     pinListElement.appendChild(pinsFragment);
   };
+
+  const activationСard = () => {
+    map.classList.remove(`map--faded`);
+    window.map.mapFilters.classList.remove(`ad-form--disabled`);
+    window.form.noticeForm.classList.remove(`ad-form--disabled`);
+    window.form.noticeAvatar.removeAttribute(`disabled`, `disabled`);
+    window.form.activateForm(window.map.mapSelectFilters);
+    window.form.activateForm(window.form.addFormElements);
+    window.form.noticeAddress.setAttribute(`value`, window.move.mainPinCenterX + `, ` + window.move.mainPinTailY);
+  };
+
+  const successLoadHandler = (pins) => {
+    addPinsToMap(pins);
+    activationСard();
+
+    const pinElements = document.querySelectorAll(`.map__pin:not(.map__pin--main)`); //тыц
+    console.log(pinElements);
+  }
 
   const errorLoadHandler = (errorMessage) => {
     const node = document.createElement(`div`);
@@ -26,17 +44,6 @@
 
     node.textContent = errorMessage;
     document.body.insertAdjacentElement(`afterbegin`, node);
-  };
-
-  const activationСard = (cb) => {
-    map.classList.remove(`map--faded`);
-    window.map.mapFilters.classList.remove(`ad-form--disabled`);
-    window.form.noticeForm.classList.remove(`ad-form--disabled`);
-    window.form.noticeAvatar.removeAttribute(`disabled`, `disabled`);
-    window.form.activateForm(window.map.mapSelectFilters);
-    window.form.activateForm(window.form.addFormElements);
-    window.form.noticeAddress.setAttribute(`value`, window.move.mainPinCenterX + `, ` + window.move.mainPinTailY);
-    setTimeout(cb, 3000);
   };
 
   mainPin.addEventListener(`keydown`, function (evt) {
