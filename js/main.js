@@ -30,9 +30,17 @@
     addPinsToMap(pins);
     activationСard();
 
-    const pinElements = document.querySelectorAll(`.map__pin:not(.map__pin--main)`); //тыц
-    console.log(pinElements);
-  }
+    const pinElements = document.querySelectorAll(`.map__pin:not(.map__pin--main)`);
+    window.pinElements = pinElements;
+
+    for (let pinElement of pinElements) {
+      pinElement.addEventListener(`click`, function () {
+        const pinsAvatar = pinElement.querySelector(`img`).getAttribute(`src`);
+        window.map.openCard(pinsAvatar);
+        window.map.closePopup();
+      });
+    }
+  };
 
   const errorLoadHandler = (errorMessage) => {
     const node = document.createElement(`div`);

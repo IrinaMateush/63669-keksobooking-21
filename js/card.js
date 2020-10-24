@@ -41,8 +41,9 @@
     return (element === undefined) ? block.classList.add(`hidden`) : block.setAttribute(`src`, element);
   };
 
-  const renderCard = (pin) => {
+  const renderCard = (pin) => { // тут баг Cannot read property 'photos' of undefined
     const cardElement = cardTemplate.cloneNode(true);
+    // console.log(`pin` + pin) выдает pin[object HTMLButtonElement]
 
     getPhotos(pin, cardElement);
     setTextContent(cardElement.querySelector(`.popup__title`), pin.offer.title);

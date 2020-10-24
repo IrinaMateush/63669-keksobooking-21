@@ -46,16 +46,6 @@
 
     xhr.open(`GET`, URL);
     xhr.send();
-
-    /*
-    for (let pinElement of pinElements) {
-      pinElement.addEventListener(`click`, function () {
-        const pinsAvatar = pinElement.querySelector(`img`).getAttribute(`src`);
-        window.map.openCard(pinsAvatar);
-        window.map.closePopup();
-      });
-    }
-*/
   };
 
   window.load = {
