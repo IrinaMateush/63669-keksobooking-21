@@ -28,8 +28,8 @@
 
     const cardsFragment = document.createDocumentFragment();
 
-    for (let pin of window.pinElements) {
-      if (pin.firstElementChild.getAttribute(`src`) === pinsAvatar) {
+    for (let pin of window.pins) {
+      if (pin.author.avatar === pinsAvatar) {
         cardsFragment.appendChild(window.card.renderCard(pin));
       }
     }

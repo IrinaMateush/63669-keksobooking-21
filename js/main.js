@@ -31,7 +31,7 @@
     activationСard();
 
     const pinElements = document.querySelectorAll(`.map__pin:not(.map__pin--main)`);
-    window.pinElements = pinElements;
+    window.pins = pins;
 
     for (let pinElement of pinElements) {
       pinElement.addEventListener(`click`, function () {
@@ -56,7 +56,7 @@
 
   mainPin.addEventListener(`keydown`, function (evt) {
     if (evt.key === `Enter`) {
-      activationСard(window.load(window.main.successLoadHandler, window.main.errorLoadHandler));
+      activationСard(window.load.load(window.main.successLoadHandler, window.main.errorLoadHandler));
     }
   });
 
