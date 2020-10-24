@@ -69,7 +69,8 @@
 
       document.addEventListener(`mousemove`, onMouseMove);
       document.addEventListener(`mouseup`, onMouseUp);
-      window.main.activationСard();
+
+      window.main.activationСard(window.load.load(window.main.successLoadHandler, window.main.errorLoadHandler));
     }
   });
 
