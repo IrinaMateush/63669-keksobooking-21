@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  const main = document.querySelector(`main`);
   const noticeForm = document.querySelector(`form.ad-form`);
   const noticeAvatar = noticeForm.querySelector(`#avatar`);
   const noticeRooms = noticeForm.querySelector(`#room_number`);
@@ -11,6 +12,7 @@
   const noticeHousing = noticeForm.querySelector(`#type`);
   const noticePrice = noticeForm.querySelector(`#price`);
   const noticeSubmit = noticeForm.querySelector(`.ad-form__submit`);
+  const noticeReset = noticeForm.querySelector(`.ad-form__reset`);
   const addFormElements = document.querySelectorAll(`.ad-form__element`);
 
   noticeForm.classList.add(`ad-form--disabled`);
@@ -56,6 +58,48 @@
     }
   };
 
+  const showSuccess = () => {
+    const successFragment = document.createDocumentFragment();
+    successFragment.appendChild(window.upload.renderSuccessMessage());
+    main.insertBefore(successFragment, window.main.map);
+
+    const successMessage = document.querySelector(`.success`);
+
+    document.addEventListener(`click`, function () {
+      successMessage.remove();
+    });
+
+    document.addEventListener(`keydown`, function (evt) {
+      if (evt.key === `Escape`) {
+        evt.preventDefault();
+        successMessage.remove();
+      }
+    });
+  };
+
+  const showError = () => {
+    const errorFragment = document.createDocumentFragment();
+    errorFragment.appendChild(window.upload.renderErrorMessage());
+    main.insertBefore(errorFragment, window.main.map);
+
+    const errorMessage = document.querySelector(`.error`);
+
+    document.addEventListener(`click`, function () {
+      errorMessage.remove();
+    });
+
+    document.addEventListener(`keydown`, function (evt) {
+      if (evt.key === `Escape`) {
+        evt.preventDefault();
+        errorMessage.remove();
+      }
+    });
+  };
+
+  noticeReset.addEventListener(`click`, function () {
+    noticeForm.reset();
+  });
+
   noticeSubmit.addEventListener(`click`, function (evt) {
     if ((noticeRooms.value === `1`) && (noticeCapacity.value !== `1`)) {
       noticeRooms.setCustomValidity(`1 комната только для 1 гостя`);
@@ -64,6 +108,23 @@
       noticeRooms.setCustomValidity(``);
     }
     noticeRooms.reportValidity();
+
+    window.upload.upload(new FormData(noticeForm), function (response) {
+      noticeForm.reset();
+      disabledForm(window.map.mapSelectFilters);
+      disabledForm(addFormElements);
+      showSuccess();
+    });
+
+    /*
+        try {
+          window.upload.upload()
+        } catch {
+          console.log(`ошибка`);
+        }
+    */
+
+    evt.preventDefault();
   });
 
   noticeCapacity.addEventListener(`change`, function () {
@@ -93,7 +154,8 @@
     noticeAvatar,
     noticeAddress,
     addFormElements,
-    activateForm
+    activateForm,
+    showError
   };
 
 })();
