@@ -83,7 +83,6 @@
   };
 
   const renderSuccessMessage = () => {
-    console.log(successTemplate)
     return successTemplate.cloneNode(true);
   };
 
