@@ -100,6 +100,13 @@
     noticeForm.reset();
   });
 
+  const successUploadHandler = () => {
+    noticeForm.reset();
+    disabledForm(window.map.mapSelectFilters);
+    disabledForm(addFormElements);
+    showSuccess();
+  };
+
   noticeSubmit.addEventListener(`click`, function (evt) {
     if ((noticeRooms.value === `1`) && (noticeCapacity.value !== `1`)) {
       noticeRooms.setCustomValidity(`1 комната только для 1 гостя`);
@@ -109,22 +116,7 @@
     }
     noticeRooms.reportValidity();
 
-    window.backend.upload(new FormData(noticeForm), function (response) {
-      //successHandler, errorHandler
-      noticeForm.reset();
-      disabledForm(window.map.mapSelectFilters);
-      disabledForm(addFormElements);
-      showSuccess();
-    });
-
-    /*
-        try {
-          window.backend.upload()
-        } catch {
-          console.log(`ошибка`);
-        }
-    */
-
+    window.backend.upload(new FormData(noticeForm), successUploadHandler, window.main.errorLoadHandler);
     evt.preventDefault();
   });
 

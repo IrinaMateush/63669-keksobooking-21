@@ -62,11 +62,6 @@
       }
     });
 
-    /*
-    xhr.addEventListener(`error`, function () {
-      onError(`Произошла ошибка соединения`);
-    });
-*/
     xhr.open(`POST`, uploadURL);
     xhr.send(data);
   };
