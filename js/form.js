@@ -107,6 +107,10 @@
     showSuccess();
   };
 
+  const errorUploadHandler = () => {
+    showError();
+  };
+
   noticeSubmit.addEventListener(`click`, function (evt) {
     if ((noticeRooms.value === `1`) && (noticeCapacity.value !== `1`)) {
       noticeRooms.setCustomValidity(`1 комната только для 1 гостя`);
@@ -116,7 +120,7 @@
     }
     noticeRooms.reportValidity();
 
-    window.backend.upload(new FormData(noticeForm), successUploadHandler, window.main.errorLoadHandler);
+    window.backend.upload(new FormData(noticeForm), successUploadHandler, errorUploadHandler);
     evt.preventDefault();
   });
 
