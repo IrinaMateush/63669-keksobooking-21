@@ -56,7 +56,7 @@
 
   mainPin.addEventListener(`keydown`, function (evt) {
     if (evt.key === `Enter`) {
-      activationСard(window.load.load(window.main.successLoadHandler, window.main.errorLoadHandler));
+      activationСard(window.backend.load(window.main.successLoadHandler, window.main.errorLoadHandler));
     }
   });
 

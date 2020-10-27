@@ -60,7 +60,7 @@
 
   const showSuccess = () => {
     const successFragment = document.createDocumentFragment();
-    successFragment.appendChild(window.upload.renderSuccessMessage());
+    successFragment.appendChild(window.data.renderSuccessMessage());
     main.insertBefore(successFragment, window.main.map);
 
     const successMessage = document.querySelector(`.success`);
@@ -79,7 +79,7 @@
 
   const showError = () => {
     const errorFragment = document.createDocumentFragment();
-    errorFragment.appendChild(window.upload.renderErrorMessage());
+    errorFragment.appendChild(window.data.renderErrorMessage());
     main.insertBefore(errorFragment, window.main.map);
 
     const errorMessage = document.querySelector(`.error`);
@@ -109,7 +109,8 @@
     }
     noticeRooms.reportValidity();
 
-    window.upload.upload(new FormData(noticeForm), function (response) {
+    window.backend.upload(new FormData(noticeForm), function (response) {
+      //successHandler, errorHandler
       noticeForm.reset();
       disabledForm(window.map.mapSelectFilters);
       disabledForm(addFormElements);
@@ -118,7 +119,7 @@
 
     /*
         try {
-          window.upload.upload()
+          window.backend.upload()
         } catch {
           console.log(`ошибка`);
         }

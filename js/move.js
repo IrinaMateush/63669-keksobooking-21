@@ -70,7 +70,7 @@
       document.addEventListener(`mousemove`, onMouseMove);
       document.addEventListener(`mouseup`, onMouseUp);
 
-      window.main.activationСard(window.load.load(window.main.successLoadHandler, window.main.errorLoadHandler));
+      window.main.activationСard(window.backend.load(window.main.successLoadHandler, window.main.errorLoadHandler));
     }
   });
 

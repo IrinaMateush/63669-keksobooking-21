@@ -7,6 +7,8 @@
   const TYPES = [`palace`, `flat`, `house`, `bungalo`];
   const CHECKIN = [`12:00`, `13:00`, `14:00`];
   const CHECKOUT = [`12:00`, `13:00`, `14:00`];
+  const successTemplate = document.querySelector(`#success`).content.querySelector(`.success`);
+  const errorTemplate = document.querySelector(`#error`).content.querySelector(`.error`);
 
   const getRandomInt = (min, max) => {
     min = Math.ceil(min);
@@ -80,6 +82,15 @@
     return photoElement;
   };
 
+  const renderSuccessMessage = () => {
+    console.log(successTemplate)
+    return successTemplate.cloneNode(true);
+  };
+
+  const renderErrorMessage = () => {
+    return errorTemplate.cloneNode(true);
+  };
+
   window.data = {
     FEATURES,
     PHOTOS,
@@ -92,6 +103,8 @@
     getLivingType,
     getLivingTypeCost,
     getCapacity,
-    createPhoto
+    createPhoto,
+    renderSuccessMessage,
+    renderErrorMessage
   };
 })();
