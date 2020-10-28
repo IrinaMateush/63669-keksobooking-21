@@ -15,18 +15,21 @@
   const noticeReset = noticeForm.querySelector(`.ad-form__reset`);
   const addFormElements = document.querySelectorAll(`.ad-form__element`);
 
-  noticeForm.classList.add(`ad-form--disabled`);
-  noticeAvatar.setAttribute(`disabled`, `disabled`);
-  noticeAddress.setAttribute(`placeholder`, window.move.mainPinCenterX + `, ` + window.move.mainPinCenterY);
-
-  const disabledForm = function (elements) {
+  const disabledFields = function (elements) {
     for (let element of elements) {
       element.setAttribute(`disabled`, `disabled`);
     }
   };
 
-  disabledForm(window.map.mapSelectFilters);
-  disabledForm(addFormElements);
+  const disabledAll = function () {
+    disabledFields(window.map.mapSelectFilters);
+    disabledFields(addFormElements);
+    noticeForm.classList.add(`ad-form--disabled`);
+    noticeAvatar.setAttribute(`disabled`, `disabled`);
+    noticeAddress.setAttribute(`placeholder`, window.move.mainPinCenterX + `, ` + window.move.mainPinCenterY);
+  };
+
+  disabledAll();
 
   const checkAvailability = () => {
     if ((noticeRooms.value === `1`) && (noticeCapacity.value !== `1`)) {
@@ -98,12 +101,12 @@
 
   noticeReset.addEventListener(`click`, function () {
     noticeForm.reset();
+    disabledAll();
   });
 
   const successUploadHandler = () => {
     noticeForm.reset();
-    disabledForm(window.map.mapSelectFilters);
-    disabledForm(addFormElements);
+    disabledAll();
     showSuccess();
   };
 
