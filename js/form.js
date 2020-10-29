@@ -13,7 +13,9 @@
   const noticePrice = noticeForm.querySelector(`#price`);
   const noticeSubmit = noticeForm.querySelector(`.ad-form__submit`);
   const noticeReset = noticeForm.querySelector(`.ad-form__reset`);
-  const addFormElements = document.querySelectorAll(`.ad-form__element`);
+  const addFormInputs = document.querySelectorAll(`.ad-form__element input`);
+  const addFormSelects = document.querySelectorAll(`.ad-form__element select`);
+  const addFormDescription = document.querySelector(`#description`);
 
   const disabledFields = function (elements) {
     for (let element of elements) {
@@ -21,11 +23,34 @@
     }
   };
 
+  const disabledFilters = function (elements) {
+    for (let element of elements) {
+      element.setAttribute(`disabled`, `disabled`);
+      element.classList.add(`visually-hidden`);
+    }
+  };
+
+  const activateForm = (elements) => {
+    for (let element of elements) {
+      element.removeAttribute(`disabled`, `disabled`);
+    }
+  };
+
+  const activateFilters = (elements) => {
+    for (let element of elements) {
+      element.removeAttribute(`disabled`, `disabled`);
+      element.classList.remove(`visually-hidden`);
+    }
+  };
+
   const disabledAll = function () {
-    disabledFields(window.map.mapSelectFilters);
-    disabledFields(addFormElements);
-    noticeForm.classList.add(`ad-form--disabled`);
+    disabledFilters(window.map.mapSelectFilters);
+    disabledFilters(window.map.mapСheckboxFilters);
+    disabledFields(addFormInputs);
+    disabledFields(addFormSelects);
+    addFormDescription.setAttribute(`disabled`, `disabled`);
     noticeAvatar.setAttribute(`disabled`, `disabled`);
+    noticeForm.classList.add(`ad-form--disabled`);
     noticeAddress.setAttribute(`placeholder`, window.move.mainPinCenterX + `, ` + window.move.mainPinCenterY);
   };
 
@@ -52,12 +77,6 @@
       if (time.value === timeOut.value) {
         time.selected = true;
       }
-    }
-  };
-
-  const activateForm = (elements) => {
-    for (let element of elements) {
-      element.removeAttribute(`disabled`, `disabled`);
     }
   };
 
@@ -151,10 +170,13 @@
 
   window.form = {
     noticeForm,
+    addFormInputs,
+    addFormSelects,
+    addFormDescription,
     noticeAvatar,
     noticeAddress,
-    addFormElements,
     activateForm,
+    activateFilters,
     showError
   };
 
