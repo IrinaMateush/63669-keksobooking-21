@@ -22,7 +22,7 @@
         y: evt.clientY
       };
 
-      const onMouseMove = function (moveEvt) {
+      const onMouseMove = (moveEvt) => {
         moveEvt.preventDefault();
 
         let shift = {
@@ -60,7 +60,7 @@
         window.form.noticeAddress.setAttribute(`value`, mainPinCenterX + `, ` + mainPinTailY);
       };
 
-      const onMouseUp = function (upEvt) {
+      const onMouseUp = (upEvt) => {
         upEvt.preventDefault();
 
         document.removeEventListener(`mousemove`, onMouseMove);

@@ -5,6 +5,7 @@
   const noticeForm = document.querySelector(`form.ad-form`);
   const noticeAvatar = noticeForm.querySelector(`#avatar`);
   const noticeRooms = noticeForm.querySelector(`#room_number`);
+  const noticeTitle = noticeForm.querySelector(`#title`);
   const noticeCapacity = noticeForm.querySelector(`#capacity`);
   const noticeAddress = noticeForm.querySelector(`#address`);
   const noticeTimeIn = noticeForm.querySelector(`#timein`);
@@ -16,17 +17,13 @@
   const addFormInputs = document.querySelectorAll(`.ad-form__element input`);
   const addFormSelects = document.querySelectorAll(`.ad-form__element select`);
   const addFormDescription = document.querySelector(`#description`);
+  const HOUSING_MIN_COST = 5000;
 
-  const disabledFields = function (elements) {
+  noticePrice.setAttribute(`min`, HOUSING_MIN_COST);
+
+  const disabledFields = (elements) => {
     for (let element of elements) {
       element.setAttribute(`disabled`, `disabled`);
-    }
-  };
-
-  const disabledFilters = function (elements) {
-    for (let element of elements) {
-      element.setAttribute(`disabled`, `disabled`);
-      element.classList.add(`visually-hidden`);
     }
   };
 
@@ -36,16 +33,9 @@
     }
   };
 
-  const activateFilters = (elements) => {
-    for (let element of elements) {
-      element.removeAttribute(`disabled`, `disabled`);
-      element.classList.remove(`visually-hidden`);
-    }
-  };
-
-  const disabledAll = function () {
-    disabledFilters(window.map.mapSelectFilters);
-    disabledFilters(window.map.mapСheckboxFilters);
+  const disabledAll = () => {
+    disabledFields(window.map.mapSelectFilters);
+    disabledFields(window.map.mapСheckboxFilters);
     disabledFields(addFormInputs);
     disabledFields(addFormSelects);
     addFormDescription.setAttribute(`disabled`, `disabled`);
@@ -136,12 +126,37 @@
   noticeSubmit.addEventListener(`click`, function (evt) {
     if ((noticeRooms.value === `1`) && (noticeCapacity.value !== `1`)) {
       noticeRooms.setCustomValidity(`1 комната только для 1 гостя`);
-      evt.preventDefault();
+      noticeRooms.reportValidity();
+      return;
+    } else if (noticeTitle.validity.valueMissing) {
+      noticeTitle.setCustomValidity(`Обязательное поле`);
+      noticeTitle.reportValidity();
+      return;
+    } else if (noticeTitle.validity.tooLong) {
+      noticeTitle.setCustomValidity(`Максимальная длина - 100 символов`);
+      noticeTitle.reportValidity();
+      return;
+    } else if (noticeTitle.validity.tooShort) {
+      noticeTitle.setCustomValidity(`Минимальная длина - 30 символов`);
+      noticeTitle.reportValidity();
+      return;
+    } else if (noticePrice.validity.valueMissing) {
+      noticePrice.setCustomValidity(`Обязательное поле`);
+      noticePrice.reportValidity();
+      return;
+    } else if (noticePrice.validity.rangeOverflow) {
+      noticePrice.setCustomValidity(`Максимальное значение 1000000`);
+      noticePrice.reportValidity();
+      return;
+    } else if (noticePrice.validity.rangeUnderflow) {
+      noticePrice.setCustomValidity(`Стоимость жилья данного типа выше`);
+      noticePrice.reportValidity();
+      return;
     } else {
       noticeRooms.setCustomValidity(``);
+      noticeTitle.setCustomValidity(``);
+      noticePrice.setCustomValidity(``);
     }
-    noticeRooms.reportValidity();
-
     window.backend.upload(new FormData(noticeForm), successUploadHandler, errorUploadHandler);
     evt.preventDefault();
   });
@@ -176,7 +191,6 @@
     noticeAvatar,
     noticeAddress,
     activateForm,
-    activateFilters,
     showError
   };
 

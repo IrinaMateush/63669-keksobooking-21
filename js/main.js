@@ -22,8 +22,8 @@
     window.form.noticeForm.classList.remove(`ad-form--disabled`);
     window.form.noticeAvatar.removeAttribute(`disabled`, `disabled`);
     window.form.addFormDescription.removeAttribute(`disabled`, `disabled`);
-    window.form.activateFilters(window.map.mapSelectFilters);
-    window.form.activateFilters(window.map.mapСheckboxFilters);
+    window.form.activateForm(window.map.mapSelectFilters);
+    window.form.activateForm(window.map.mapСheckboxFilters);
     window.form.activateForm(window.form.addFormInputs);
     window.form.activateForm(window.form.addFormSelects);
     window.form.noticeAddress.setAttribute(`value`, window.move.mainPinCenterX + `, ` + window.move.mainPinTailY);
