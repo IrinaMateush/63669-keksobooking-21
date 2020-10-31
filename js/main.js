@@ -21,8 +21,11 @@
     window.map.mapFilters.classList.remove(`ad-form--disabled`);
     window.form.noticeForm.classList.remove(`ad-form--disabled`);
     window.form.noticeAvatar.removeAttribute(`disabled`, `disabled`);
+    window.form.addFormDescription.removeAttribute(`disabled`, `disabled`);
     window.form.activateForm(window.map.mapSelectFilters);
-    window.form.activateForm(window.form.addFormElements);
+    window.form.activateForm(window.map.mapСheckboxFilters);
+    window.form.activateForm(window.form.addFormInputs);
+    window.form.activateForm(window.form.addFormSelects);
     window.form.noticeAddress.setAttribute(`value`, window.move.mainPinCenterX + `, ` + window.move.mainPinTailY);
   };
 
@@ -56,7 +59,7 @@
 
   mainPin.addEventListener(`keydown`, function (evt) {
     if (evt.key === `Enter`) {
-      activationСard(window.load.load(window.main.successLoadHandler, window.main.errorLoadHandler));
+      activationСard(window.backend.load(window.main.successLoadHandler, window.main.errorLoadHandler));
     }
   });
 

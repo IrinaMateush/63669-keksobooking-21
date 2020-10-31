@@ -4,6 +4,8 @@
 
   const mapFilters = window.main.map.querySelector(`.map__filters-container`);
   const mapSelectFilters = mapFilters.querySelectorAll(`.map__filter`);
+  const mapСheckboxFilters = mapFilters.querySelectorAll(`.map__feature`);
+
   const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
   const PIN_HALF_WIDTH = 23;
   const PIN_HEIGHT = 64;
@@ -54,6 +56,7 @@
   window.map = {
     mapFilters,
     mapSelectFilters,
+    mapСheckboxFilters,
     renderPin,
     openCard,
     closePopup
