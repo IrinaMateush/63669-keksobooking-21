@@ -4,7 +4,9 @@
   const mainPin = document.querySelector(`.map__pin--main`);
   const map = document.querySelector(`.map`);
   const pinListElement = document.querySelector(`.map__pins`);
+  const typeOfHousing = document.querySelector(`#housing-type`);
   const PINS_COUNT = 8;
+  let livingType = `any`;
 
   const addPinsToMap = (pins) => {
     const pinsFragment = document.createDocumentFragment();
@@ -29,13 +31,27 @@
     window.form.noticeAddress.setAttribute(`value`, window.move.mainPinCenterX + `, ` + window.move.mainPinTailY);
   };
 
-  const successLoadHandler = (pins) => {
+  typeOfHousing.addEventListener(`change`, function () {
+    livingType = typeOfHousing.value;
+    if (livingType !== `any`) {
+      let samePins = window.pins.filter(function (pin) {
+        return pin.offer.type === livingType;
+      });
+      window.samePins = samePins;
+    }
+  });
+
+  const updatePins = function (pins) {
     addPinsToMap(pins);
+  };
+
+  const successLoadHandler = (pins) => {
+    // addPinsToMap(pins);
+    updatePins(pins);
     activationСard();
 
     const pinElements = document.querySelectorAll(`.map__pin:not(.map__pin--main)`);
     window.pins = pins;
-
     for (let pinElement of pinElements) {
       pinElement.addEventListener(`click`, function () {
         const pinsAvatar = pinElement.querySelector(`img`).getAttribute(`src`);
