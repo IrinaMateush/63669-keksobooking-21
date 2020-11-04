@@ -48,18 +48,17 @@
     }
   });
 
-  const successLoadHandler = (pins) => {
+  const filter = (pins) => {
     const pinElements = document.querySelectorAll(`.map__pin:not(.map__pin--main)`);
     window.pins = pins;
 
     if (pinElements !== null) {
       for (let pinElement of pinElements) {
-        pinElement.classList.add(`hidden`);
+        pinElement.remove();
       }
     }
 
     addPinsToMap(pins);
-    activationСard();
 
     for (let pinElement of pinElements) {
       pinElement.addEventListener(`click`, function () {
@@ -68,6 +67,11 @@
         window.map.closePopup();
       });
     }
+  }
+
+  const successLoadHandler = (pins) => {
+    filter(pins);
+    activationСard();
   };
 
   const errorLoadHandler = (errorMessage) => {
