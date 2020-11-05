@@ -8,15 +8,24 @@
   const PINS_COUNT = 5;
   let livingType = `any`;
 
-  const addPinsToMap = (pins) => {
+  const addPinsToMap = (pins, count) => {
     const pinsFragment = document.createDocumentFragment();
-
-    for (let i = 0; i < PINS_COUNT; i++) {
-      // console.log(pins[i]);
+    for (let i = 0; i < count; i++) {
       pinsFragment.appendChild(window.map.renderPin(pins[i]));
     }
 
     pinListElement.appendChild(pinsFragment);
+
+    const pinElements = document.querySelectorAll(`.map__pin:not(.map__pin--main)`);
+    window.pinElements = pinElements;
+
+    for (let pinElement of pinElements) {
+      pinElement.addEventListener(`click`, function () {
+        const pinsAvatar = pinElement.querySelector(`img`).getAttribute(`src`);
+        window.map.openCard(pinsAvatar);
+        window.map.closePopup();
+      });
+    }
   };
 
   const activationСard = () => {
@@ -32,45 +41,38 @@
     window.form.noticeAddress.setAttribute(`value`, window.move.mainPinCenterX + `, ` + window.move.mainPinTailY);
   };
 
+
   typeOfHousing.addEventListener(`change`, function () {
-    if (document.querySelector(`.popup`) !== null) {
-      window.map.closePopup();
+    const cardPopup = document.querySelector(`.popup`);
+    if (cardPopup !== null) {
+      cardPopup.remove();
+    }
+
+    if (window.pinElements !== null) {
+      for (let pinElement of window.pinElements) {
+        pinElement.remove();
+      }
     }
 
     livingType = typeOfHousing.value;
+
     if (livingType !== `any`) {
       let samePins = window.pins.filter(function (pin) {
         return pin.offer.type === livingType;
       });
-      successLoadHandler(samePins);
+      filterPins(samePins);
     } else {
       successLoadHandler(window.pins);
     }
   });
 
-  const filter = (pins) => {
-    const pinElements = document.querySelectorAll(`.map__pin:not(.map__pin--main)`);
-    window.pins = pins;
-
-    if (pinElements !== null) {
-      for (let pinElement of pinElements) {
-        pinElement.remove();
-      }
-    }
-
-    addPinsToMap(pins);
-
-    for (let pinElement of pinElements) {
-      pinElement.addEventListener(`click`, function () {
-        const pinsAvatar = pinElement.querySelector(`img`).getAttribute(`src`);
-        window.map.openCard(pinsAvatar);
-        window.map.closePopup();
-      });
-    }
-  }
+  const filterPins = (pins) => {
+    addPinsToMap(pins, pins.length);
+  };
 
   const successLoadHandler = (pins) => {
-    filter(pins);
+    window.pins = pins;
+    addPinsToMap(pins, PINS_COUNT);
     activationСard();
   };
 

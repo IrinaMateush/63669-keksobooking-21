@@ -149,8 +149,10 @@
     showError();
   };
 
-  noticeSubmit.addEventListener(`click`, function (evt) {
-    if (!checkFields()) return;
+  noticeSubmit.addEventListener(`click`, function () {
+    if (!checkFields()) {
+      return;
+    }
     window.backend.upload(new FormData(noticeForm), successUploadHandler, errorUploadHandler);
   });
 
