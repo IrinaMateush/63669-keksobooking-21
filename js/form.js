@@ -108,6 +108,32 @@
     });
   };
 
+  const checkFields = () => {
+    if ((noticeRooms.value === `1`) && (noticeCapacity.value !== `1`)) {
+      noticeRooms.setCustomValidity(`1 комната только для 1 гостя`);
+      noticeRooms.reportValidity();
+    } else if (noticeTitle.validity.valueMissing) {
+      noticeTitle.setCustomValidity(`Обязательное поле`);
+      noticeTitle.reportValidity();
+    } else if (noticePrice.validity.valueMissing) {
+      noticePrice.setCustomValidity(`Обязательное поле`);
+      noticePrice.reportValidity();
+    } else if (noticeTitle.validity.tooLong) {
+      noticeTitle.setCustomValidity(`Максимальная длина - 100 символов`);
+      noticeTitle.reportValidity();
+    } else if (noticeTitle.validity.tooShort) {
+      noticeTitle.setCustomValidity(`Минимальная длина - 30 символов`);
+      noticeTitle.reportValidity();
+    } else if (noticePrice.validity.rangeOverflow) {
+      noticePrice.setCustomValidity(`Максимальное значение 1000000`);
+      noticePrice.reportValidity();
+    } else {
+      noticeRooms.setCustomValidity(``);
+      noticeTitle.setCustomValidity(``);
+      noticePrice.setCustomValidity(``);
+    }
+  };
+
   noticeReset.addEventListener(`click`, function () {
     noticeForm.reset();
     disabledAll();
@@ -123,42 +149,11 @@
     showError();
   };
 
-  noticeSubmit.addEventListener(`click`, function (evt) {
-    if ((noticeRooms.value === `1`) && (noticeCapacity.value !== `1`)) {
-      noticeRooms.setCustomValidity(`1 комната только для 1 гостя`);
-      noticeRooms.reportValidity();
+  noticeSubmit.addEventListener(`click`, function () {
+    if (!checkFields()) {
       return;
-    } else if (noticeTitle.validity.valueMissing) {
-      noticeTitle.setCustomValidity(`Обязательное поле`);
-      noticeTitle.reportValidity();
-      return;
-    } else if (noticeTitle.validity.tooLong) {
-      noticeTitle.setCustomValidity(`Максимальная длина - 100 символов`);
-      noticeTitle.reportValidity();
-      return;
-    } else if (noticeTitle.validity.tooShort) {
-      noticeTitle.setCustomValidity(`Минимальная длина - 30 символов`);
-      noticeTitle.reportValidity();
-      return;
-    } else if (noticePrice.validity.valueMissing) {
-      noticePrice.setCustomValidity(`Обязательное поле`);
-      noticePrice.reportValidity();
-      return;
-    } else if (noticePrice.validity.rangeOverflow) {
-      noticePrice.setCustomValidity(`Максимальное значение 1000000`);
-      noticePrice.reportValidity();
-      return;
-    } else if (noticePrice.validity.rangeUnderflow) {
-      noticePrice.setCustomValidity(`Стоимость жилья данного типа выше`);
-      noticePrice.reportValidity();
-      return;
-    } else {
-      noticeRooms.setCustomValidity(``);
-      noticeTitle.setCustomValidity(``);
-      noticePrice.setCustomValidity(``);
     }
     window.backend.upload(new FormData(noticeForm), successUploadHandler, errorUploadHandler);
-    evt.preventDefault();
   });
 
   noticeCapacity.addEventListener(`change`, function () {
