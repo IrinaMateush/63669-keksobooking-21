@@ -5,11 +5,25 @@
   const map = document.querySelector(`.map`);
   const pinListElement = document.querySelector(`.map__pins`);
   const typeOfHousing = document.querySelector(`#housing-type`);
+  const housungPrice = document.querySelector(`#housing-price`);
+  const housungRooms = document.querySelector(`#housing-rooms`);
+  const housungGuests = document.querySelector(`#housing-guests`);
+  const housungFeatures = document.querySelectorAll(`.map__checkbox`);
+
   const PINS_COUNT = 5;
-  let livingType = `any`;
+  const ANY = `any`;
+  const LOW = `low`;
+  const MIDDLE = `middle`;
+  const HIGT = `higt`;
+  let livingType = ANY;
+  let roomCount = ANY;
+  let guestsCount = ANY;
 
   const addPinsToMap = (pins, count) => {
     const pinsFragment = document.createDocumentFragment();
+    if (count > PINS_COUNT) {
+      count = PINS_COUNT;
+    }
     for (let i = 0; i < count; i++) {
       pinsFragment.appendChild(window.map.renderPin(pins[i]));
     }
@@ -41,8 +55,7 @@
     window.form.noticeAddress.setAttribute(`value`, window.move.mainPinCenterX + `, ` + window.move.mainPinTailY);
   };
 
-
-  typeOfHousing.addEventListener(`change`, function () {
+  const changeFilters = () => {
     const cardPopup = document.querySelector(`.popup`);
     if (cardPopup !== null) {
       cardPopup.remove();
@@ -53,18 +66,86 @@
         pinElement.remove();
       }
     }
+  };
 
+  typeOfHousing.addEventListener(`change`, function () {
+    changeFilters();
     livingType = typeOfHousing.value;
 
-    if (livingType !== `any`) {
+    if (livingType !== ANY) {
       let samePins = window.pins.filter(function (pin) {
-        return pin.offer.type === livingType;
+        return String(pin.offer.type) === livingType;
       });
       filterPins(samePins);
     } else {
       successLoadHandler(window.pins);
     }
   });
+
+  housungRooms.addEventListener(`change`, function () {
+    changeFilters();
+    roomCount = housungRooms.value;
+    if (roomCount !== ANY) {
+      let samePins = window.pins.filter(function (pin) {
+        return String(pin.offer.rooms) === roomCount;
+      });
+      filterPins(samePins);
+    } else {
+      successLoadHandler(window.pins);
+    }
+  });
+
+  housungGuests.addEventListener(`change`, function () {
+    changeFilters();
+    guestsCount = housungGuests.value;
+    if (guestsCount !== ANY) {
+      let samePins = window.pins.filter(function (pin) {
+        return String(pin.offer.guests) === guestsCount;
+      });
+      filterPins(samePins);
+    } else {
+      successLoadHandler(window.pins);
+    }
+  });
+
+  housungPrice.addEventListener(`change`, function () {
+    changeFilters();
+
+    if (housungPrice.value === ANY) {
+      successLoadHandler(window.pins);
+    } else if (housungPrice.value === LOW) {
+      let samePins = window.pins.filter(function (pin) {
+        return pin.offer.price < 10000;
+      });
+      filterPins(samePins);
+    } else if (housungPrice.value === MIDDLE) {
+      let samePins = window.pins.filter(function (pin) {
+        return ((pin.offer.price > 1000) && (pin.offer.price < 50000));
+      });
+      filterPins(samePins);
+    } else if (housungPrice.value === HIGT) {
+      let samePins = window.pins.filter(function (pin) {
+        return pin.offer.price > 50000;
+      });
+      filterPins(samePins);
+    }
+  });
+
+
+  for (let housungFeature of housungFeatures) {
+    housungFeature.addEventListener(`change`, function () {
+      changeFilters();
+      if (housungFeature.checked) {
+        let samePins = window.pins.filter(function (pin) {
+          const features = pin.offer.features;
+          return (features.includes(housungFeature.value));
+        });
+        filterPins(samePins);
+      } else {
+        successLoadHandler(window.pins);
+      }
+    });
+  }
 
   const filterPins = (pins) => {
     addPinsToMap(pins, pins.length);
