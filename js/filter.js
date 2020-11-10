@@ -5,15 +5,19 @@
   const housungPrice = document.querySelector(`#housing-price`);
   const housungRooms = document.querySelector(`#housing-rooms`);
   const housungGuests = document.querySelector(`#housing-guests`);
-  const housungFeatures = document.querySelectorAll(`.map__checkbox`);
-  const mapFilters = document.querySelectorAll(`.map__filter`);
+  const checkboxWifi = document.querySelector(`#filter-wifi`);
+  const checkboxDishwasher = document.querySelector(`#filter-dishwasher`);
+  const checkboxParking = document.querySelector(`#filter-parking`);
+  const checkboxWasher = document.querySelector(`#filter-washer`);
+  const checkboxElevator = document.querySelector(`#filter-elevator`);
+  const checkboxConditioner = document.querySelector(`#filter-conditioner`);
 
   const ANY = `any`;
   const LOW = `low`;
   const MIDDLE = `middle`;
   const HIGT = `higt`;
 
-  const changeFilters = () => {
+  const removeElements = () => {
     const cardPopup = document.querySelector(`.popup`);
     if (cardPopup !== null) {
       cardPopup.remove();
@@ -27,88 +31,190 @@
   };
 
   const getTypeOfHousing = (option) => {
-    changeFilters();
-    let samePins = window.pins.filter(function (pin) {
-      return String(pin.offer.type) === option.value;
-    });
-    return samePins;
+    removeElements();
+    if (typeOfHousing.value === ANY) {
+      return option;
+    } else {
+      let samePins = option.filter(function (pin) {
+        return String(pin.offer.type) === typeOfHousing.value;
+      });
+      return samePins;
+    }
   };
 
   const getHousingRooms = (option) => {
-    changeFilters();
-    let samePins = window.pins.filter(function (pin) {
-      return String(pin.offer.rooms) === option.value;
-    });
-    return samePins;
+    removeElements();
+    if (housungRooms.value === ANY) {
+      return option;
+    } else {
+      let samePins = option.filter(function (pin) {
+        return String(pin.offer.rooms) === housungRooms.value;
+      });
+      return samePins;
+    }
   };
 
   const getHousingGuest = (option) => {
-    changeFilters();
-    let samePins = window.pins.filter(function (pin) {
-      return String(pin.offer.guests) === option.value;
-    });
-    return samePins;
+    removeElements();
+    if (housungGuests.value === ANY) {
+      return option;
+    } else {
+      let samePins = option.filter(function (pin) {
+        return String(pin.offer.guests) === housungGuests.value;
+      });
+      return samePins;
+    }
   };
 
   const getPrice = (option) => {
-    let samePins;
-    if (option.value === LOW) {
-      samePins = window.pins.filter(function (pin) {
+    removeElements();
+    let samePins = option;
+    if (housungPrice.value === LOW) {
+      samePins = option.filter(function (pin) {
         return pin.offer.price < 10000;
       });
-    } else if (option.value === MIDDLE) {
-      samePins = window.pins.filter(function (pin) {
+    } else if (housungPrice.value === MIDDLE) {
+      samePins = option.filter(function (pin) {
         return ((pin.offer.price > 1000) && (pin.offer.price < 50000));
       });
-    } else if (option.value === HIGT) {
-      samePins = window.pins.filter(function (pin) {
+    } else if (housungPrice.value === HIGT) {
+      samePins = option.filter(function (pin) {
         return pin.offer.price > 50000;
       });
     }
     return samePins;
   };
 
-  for (let mapFilter of mapFilters) {
-    mapFilter.addEventListener(`change`, function () {
-      let samePins;
-      if (mapFilter.value !== ANY) {
-        changeFilters();
-        if (mapFilter === typeOfHousing) {
-          samePins = getTypeOfHousing(mapFilter);
-          filterPins(samePins);
-        } else if (mapFilter === housungPrice) {
-          samePins = getPrice(mapFilter);
-          filterPins(samePins);
-        } else if (mapFilter === housungRooms) {
-          samePins = getHousingRooms(mapFilter);
-          filterPins(samePins);
-        } else if (mapFilter === housungGuests) {
-          samePins = getHousingGuest(mapFilter);
-          filterPins(samePins);
-        }
-      } else {
-        window.main.successLoadHandler(window.pins);
-      }
-    });
-  }
-
-  for (let housungFeature of housungFeatures) {
-    housungFeature.addEventListener(`change`, function () {
-      changeFilters();
-      if (housungFeature.checked) {
-        let samePins = window.pins.filter(function (pin) {
-          const features = pin.offer.features;
-          return (features.includes(housungFeature.value));
-        });
-        filterPins(samePins);
-      } else {
-        window.main.successLoadHandler(window.pins);
-      }
-    });
-  }
-
-  const filterPins = (pins) => {
-    window.main.addPinsToMap(pins);
+  const getWifi = (option) => {
+    removeElements();
+    if (checkboxWifi.checked) {
+      let samePins = option.filter(function (pin) {
+        const features = pin.offer.features;
+        return (features.includes(checkboxWifi.value));
+      });
+      return samePins;
+    } else {
+      return option;
+    }
   };
+
+  const getDishwasher = (option) => {
+    removeElements();
+    if (checkboxDishwasher.checked) {
+      let samePins = option.filter(function (pin) {
+        const features = pin.offer.features;
+        return (features.includes(checkboxDishwasher.value));
+      });
+      return samePins;
+    } else {
+      return option;
+    }
+  };
+
+  const getParking = (option) => {
+    removeElements();
+    if (checkboxParking.checked) {
+      let samePins = option.filter(function (pin) {
+        const features = pin.offer.features;
+        return (features.includes(checkboxParking.value));
+      });
+      return samePins;
+    } else {
+      return option;
+    }
+  };
+
+  const getWasher = (option) => {
+    removeElements();
+    if (checkboxWasher.checked) {
+      let samePins = option.filter(function (pin) {
+        const features = pin.offer.features;
+        return (features.includes(checkboxWasher.value));
+      });
+      return samePins;
+    } else {
+      return option;
+    }
+  };
+
+  const getElevator = (option) => {
+    removeElements();
+    if (checkboxElevator.checked) {
+      let samePins = option.filter(function (pin) {
+        const features = pin.offer.features;
+        return (features.includes(checkboxElevator.value));
+      });
+      return samePins;
+    } else {
+      return option;
+    }
+  };
+
+  const getConditioner = (option) => {
+    removeElements();
+    if (checkboxConditioner.checked) {
+      let samePins = option.filter(function (pin) {
+        const features = pin.offer.features;
+        return (features.includes(checkboxConditioner.value));
+      });
+      return samePins;
+    } else {
+      return option;
+    }
+  };
+
+  const filterPins = () => {
+    let result = getTypeOfHousing(window.pins);
+    let result2 = getHousingRooms(result);
+    let result3 = getHousingGuest(result2);
+    let result4 = getPrice(result3);
+    let result5 = getWifi(result4);
+    let result6 = getDishwasher(result5);
+    let result7 = getParking(result6);
+    let result8 = getWasher(result7);
+    let result9 = getElevator(result8);
+    let result10 = getConditioner(result9);
+    window.main.addPinsToMap(result10);
+  };
+
+  typeOfHousing.addEventListener(`change`, function () {
+    filterPins();
+  });
+
+  housungRooms.addEventListener(`change`, function () {
+    filterPins();
+  });
+
+  housungGuests.addEventListener(`change`, function () {
+    filterPins();
+  });
+
+  housungPrice.addEventListener(`change`, function () {
+    filterPins();
+  });
+
+  checkboxWifi.addEventListener(`change`, function () {
+    filterPins();
+  });
+
+  checkboxDishwasher.addEventListener(`change`, function () {
+    filterPins();
+  });
+
+  checkboxParking.addEventListener(`change`, function () {
+    filterPins();
+  });
+
+  checkboxWasher.addEventListener(`change`, function () {
+    filterPins();
+  });
+
+  checkboxElevator.addEventListener(`change`, function () {
+    filterPins();
+  });
+
+  checkboxConditioner.addEventListener(`change`, function () {
+    filterPins();
+  });
 
 })();
