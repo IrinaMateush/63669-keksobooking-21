@@ -112,11 +112,11 @@
   };
 
   for (let mapFilter of mapFilters) {
-    mapFilter.addEventListener(`change`, filterPins);
+    mapFilter.addEventListener(`change`, window.debounce(filterPins));
   }
 
   for (let housungFeature of housungFeatures) {
-    housungFeature.addEventListener(`change`, filterPins);
+    housungFeature.addEventListener(`change`, window.debounce(filterPins));
   }
 
 })();
