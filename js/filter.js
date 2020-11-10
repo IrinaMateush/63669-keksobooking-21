@@ -13,6 +13,9 @@
   const checkboxElevator = document.querySelector(`#filter-elevator`);
   const checkboxConditioner = document.querySelector(`#filter-conditioner`);
 
+  const housungFeatures = document.querySelectorAll(`.map__checkbox`);
+  const mapFilters = document.querySelectorAll(`.map__filter`);
+
   const ANY = `any`;
   const LOW = `low`;
   const MIDDLE = `middle`;
@@ -113,44 +116,16 @@
     window.main.addPinsToMap(result10);
   };
 
-  typeOfHousing.addEventListener(`change`, function () {
-    filterPins();
-  });
+  for (let mapFilter of mapFilters) {
+    mapFilter.addEventListener(`change`, function () {
+      filterPins();
+    });
+  }
 
-  housungRooms.addEventListener(`change`, function () {
-    filterPins();
-  });
-
-  housungGuests.addEventListener(`change`, function () {
-    filterPins();
-  });
-
-  housungPrice.addEventListener(`change`, function () {
-    filterPins();
-  });
-
-  checkboxWifi.addEventListener(`change`, function () {
-    filterPins();
-  });
-
-  checkboxDishwasher.addEventListener(`change`, function () {
-    filterPins();
-  });
-
-  checkboxParking.addEventListener(`change`, function () {
-    filterPins();
-  });
-
-  checkboxWasher.addEventListener(`change`, function () {
-    filterPins();
-  });
-
-  checkboxElevator.addEventListener(`change`, function () {
-    filterPins();
-  });
-
-  checkboxConditioner.addEventListener(`change`, function () {
-    filterPins();
-  });
+  for (let housungFeature of housungFeatures) {
+    housungFeature.addEventListener(`change`, function () {
+      filterPins();
+    });
+  }
 
 })();
