@@ -1,6 +1,6 @@
 'use strict';
 
-(function () {
+(() => {
   const mainPin = document.querySelector(`.map__pin--main`);
   const map = document.querySelector(`.map`);
   const pinListElement = document.querySelector(`.map__pins`);
@@ -21,7 +21,7 @@
     window.pinElements = pinElements;
 
     for (let pinElement of pinElements) {
-      pinElement.addEventListener(`click`, function () {
+      pinElement.addEventListener(`click`, () => {
         const pinsAvatar = pinElement.querySelector(`img`).getAttribute(`src`);
         window.map.openCard(pinsAvatar);
         window.map.closePopup();
@@ -60,7 +60,7 @@
     document.body.insertAdjacentElement(`afterbegin`, node);
   };
 
-  mainPin.addEventListener(`keydown`, function (evt) {
+  mainPin.addEventListener(`keydown`, (evt) => {
     if (evt.key === `Enter`) {
       activationСard(window.backend.load(window.main.successLoadHandler, window.main.errorLoadHandler));
     }

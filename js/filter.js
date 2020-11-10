@@ -1,6 +1,6 @@
 'use strict';
 
-(function () {
+(() => {
   const typeOfHousing = document.querySelector(`#housing-type`);
   const housungPrice = document.querySelector(`#housing-price`);
   const housungRooms = document.querySelector(`#housing-rooms`);
@@ -39,10 +39,9 @@
     if (typeOfHousing.value === ANY) {
       return option;
     } else {
-      let samePins = option.filter(function (pin) {
+      return option.filter((pin) => {
         return String(pin.offer.type) === typeOfHousing.value;
       });
-      return samePins;
     }
   };
 
@@ -51,10 +50,9 @@
     if (housungRooms.value === ANY) {
       return option;
     } else {
-      let samePins = option.filter(function (pin) {
+      return option.filter((pin) => {
         return String(pin.offer.rooms) === housungRooms.value;
       });
-      return samePins;
     }
   };
 
@@ -63,10 +61,9 @@
     if (housungGuests.value === ANY) {
       return option;
     } else {
-      let samePins = option.filter(function (pin) {
+      return option.filter((pin) => {
         return String(pin.offer.guests) === housungGuests.value;
       });
-      return samePins;
     }
   };
 
@@ -74,15 +71,15 @@
     removeElements();
     let samePins = option;
     if (housungPrice.value === LOW) {
-      samePins = option.filter(function (pin) {
+      samePins = option.filter((pin) => {
         return pin.offer.price < 10000;
       });
     } else if (housungPrice.value === MIDDLE) {
-      samePins = option.filter(function (pin) {
+      samePins = option.filter((pin) => {
         return ((pin.offer.price > 1000) && (pin.offer.price < 50000));
       });
     } else if (housungPrice.value === HIGT) {
-      samePins = option.filter(function (pin) {
+      samePins = option.filter((pin) => {
         return pin.offer.price > 50000;
       });
     }
@@ -92,40 +89,34 @@
   const getFeature = (option, elem) => {
     removeElements();
     if (elem.checked) {
-      let samePins = option.filter(function (pin) {
-        const features = pin.offer.features;
-        return (features.includes(elem.value));
+      let samePins = option.filter((pin) => {
+        return (pin.offer.features.includes(elem.value));
       });
       return samePins;
-    } else {
-      return option;
     }
+    return option;
   };
 
   const filterPins = () => {
-    let result = getTypeOfHousing(window.pins);
-    let result2 = getHousingRooms(result);
-    let result3 = getHousingGuest(result2);
-    let result4 = getPrice(result3);
-    let result5 = getFeature(result4, checkboxWifi);
-    let result6 = getFeature(result5, checkboxDishwasher);
-    let result7 = getFeature(result6, checkboxParking);
-    let result8 = getFeature(result7, checkboxWasher);
-    let result9 = getFeature(result8, checkboxElevator);
-    let result10 = getFeature(result9, checkboxConditioner);
-    window.main.addPinsToMap(result10);
+    const filteredHousing = getTypeOfHousing(window.pins);
+    const filteredRooms = getHousingRooms(filteredHousing);
+    const filteredGuests = getHousingGuest(filteredRooms);
+    const filteredPrice = getPrice(filteredGuests);
+    const filteredWifi = getFeature(filteredPrice, checkboxWifi);
+    const filteredDishwashers = getFeature(filteredWifi, checkboxDishwasher);
+    const filteredParking = getFeature(filteredDishwashers, checkboxParking);
+    const filteredWashers = getFeature(filteredParking, checkboxWasher);
+    const filteredElevators = getFeature(filteredWashers, checkboxElevator);
+    const filteredConditioners = getFeature(filteredElevators, checkboxConditioner);
+    window.main.addPinsToMap(filteredConditioners);
   };
 
   for (let mapFilter of mapFilters) {
-    mapFilter.addEventListener(`change`, function () {
-      filterPins();
-    });
+    mapFilter.addEventListener(`change`, filterPins);
   }
 
   for (let housungFeature of housungFeatures) {
-    housungFeature.addEventListener(`change`, function () {
-      filterPins();
-    });
+    housungFeature.addEventListener(`change`, filterPins);
   }
 
 })();

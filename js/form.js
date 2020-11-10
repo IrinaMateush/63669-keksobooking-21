@@ -1,6 +1,6 @@
 'use strict';
 
-(function () {
+(() => {
   const main = document.querySelector(`main`);
   const noticeForm = document.querySelector(`form.ad-form`);
   const noticeAvatar = noticeForm.querySelector(`#avatar`);
@@ -77,11 +77,11 @@
 
     const successMessage = document.querySelector(`.success`);
 
-    document.addEventListener(`click`, function () {
+    document.addEventListener(`click`, () => {
       successMessage.remove();
     });
 
-    document.addEventListener(`keydown`, function (evt) {
+    document.addEventListener(`keydown`, (evt) => {
       if (evt.key === `Escape`) {
         evt.preventDefault();
         successMessage.remove();
@@ -96,11 +96,11 @@
 
     const errorMessage = document.querySelector(`.error`);
 
-    document.addEventListener(`click`, function () {
+    document.addEventListener(`click`, () => {
       errorMessage.remove();
     });
 
-    document.addEventListener(`keydown`, function (evt) {
+    document.addEventListener(`keydown`, (evt) => {
       if (evt.key === `Escape`) {
         evt.preventDefault();
         errorMessage.remove();
@@ -134,7 +134,7 @@
     }
   };
 
-  noticeReset.addEventListener(`click`, function () {
+  noticeReset.addEventListener(`click`, () => {
     noticeForm.reset();
     disabledAll();
   });
@@ -149,30 +149,30 @@
     showError();
   };
 
-  noticeSubmit.addEventListener(`click`, function () {
+  noticeSubmit.addEventListener(`click`, () => {
     if (!checkFields()) {
       return;
     }
     window.backend.upload(new FormData(noticeForm), successUploadHandler, errorUploadHandler);
   });
 
-  noticeCapacity.addEventListener(`change`, function () {
+  noticeCapacity.addEventListener(`change`, () => {
     checkAvailability();
   });
 
-  noticeRooms.addEventListener(`change`, function () {
+  noticeRooms.addEventListener(`change`, () => {
     checkAvailability();
   });
 
-  noticeTimeIn.addEventListener(`change`, function () {
+  noticeTimeIn.addEventListener(`change`, () => {
     synchronizeTime(noticeTimeOut, noticeTimeIn);
   });
 
-  noticeTimeOut.addEventListener(`change`, function () {
+  noticeTimeOut.addEventListener(`change`, () => {
     synchronizeTime(noticeTimeIn, noticeTimeOut);
   });
 
-  noticeHousing.addEventListener(`change`, function () {
+  noticeHousing.addEventListener(`change`, () => {
     const cost = window.data.getLivingTypeCost(noticeHousing);
     noticePrice.setAttribute(`placeholder`, cost);
     noticePrice.setAttribute(`min`, cost);

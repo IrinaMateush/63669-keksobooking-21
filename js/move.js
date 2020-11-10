@@ -1,6 +1,6 @@
 'use strict';
 
-(function () {
+(() => {
   const LEFT_MOUSE_BUTTON = 1;
   const START_BORDER_Y = 130;
   const END_BORDER_Y = 630;
@@ -13,7 +13,7 @@
   const MAIN_PIN_TAILS_HEIGHT = 22;
   let mainPinTailY = Math.round(mainPinCenterY + mainPinHalf + MAIN_PIN_TAILS_HEIGHT);
 
-  window.main.mainPin.addEventListener(`mousedown`, function (evt) {
+  window.main.mainPin.addEventListener(`mousedown`, (evt) => {
     evt.preventDefault();
     if (evt.which === LEFT_MOUSE_BUTTON) {
 

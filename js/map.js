@@ -1,6 +1,6 @@
 'use strict';
 
-(function () {
+(() => {
 
   const mapFilters = window.main.map.querySelector(`.map__filters-container`);
   const mapSelectFilters = mapFilters.querySelectorAll(`.map__filter`);
@@ -41,11 +41,11 @@
   const closePopup = () => {
     const cardPopup = document.querySelector(`.popup`);
     const popupClose = document.querySelector(`.popup__close`);
-    popupClose.addEventListener(`click`, function () {
+    popupClose.addEventListener(`click`, () => {
       cardPopup.remove();
     });
 
-    document.addEventListener(`keydown`, function (evt) {
+    document.addEventListener(`keydown`, (evt) => {
       if (evt.key === `Escape`) {
         evt.preventDefault();
         cardPopup.remove();

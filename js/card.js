@@ -1,6 +1,6 @@
 'use strict';
 
-(function () {
+(() => {
   const cardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
 
   const getPhotos = (pin, cardElement) => {
