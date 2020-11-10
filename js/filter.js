@@ -5,6 +5,7 @@
   const housungPrice = document.querySelector(`#housing-price`);
   const housungRooms = document.querySelector(`#housing-rooms`);
   const housungGuests = document.querySelector(`#housing-guests`);
+
   const checkboxWifi = document.querySelector(`#filter-wifi`);
   const checkboxDishwasher = document.querySelector(`#filter-dishwasher`);
   const checkboxParking = document.querySelector(`#filter-parking`);
@@ -85,77 +86,12 @@
     return samePins;
   };
 
-  const getWifi = (option) => {
+  const getFeature = (option, elem) => {
     removeElements();
-    if (checkboxWifi.checked) {
+    if (elem.checked) {
       let samePins = option.filter(function (pin) {
         const features = pin.offer.features;
-        return (features.includes(checkboxWifi.value));
-      });
-      return samePins;
-    } else {
-      return option;
-    }
-  };
-
-  const getDishwasher = (option) => {
-    removeElements();
-    if (checkboxDishwasher.checked) {
-      let samePins = option.filter(function (pin) {
-        const features = pin.offer.features;
-        return (features.includes(checkboxDishwasher.value));
-      });
-      return samePins;
-    } else {
-      return option;
-    }
-  };
-
-  const getParking = (option) => {
-    removeElements();
-    if (checkboxParking.checked) {
-      let samePins = option.filter(function (pin) {
-        const features = pin.offer.features;
-        return (features.includes(checkboxParking.value));
-      });
-      return samePins;
-    } else {
-      return option;
-    }
-  };
-
-  const getWasher = (option) => {
-    removeElements();
-    if (checkboxWasher.checked) {
-      let samePins = option.filter(function (pin) {
-        const features = pin.offer.features;
-        return (features.includes(checkboxWasher.value));
-      });
-      return samePins;
-    } else {
-      return option;
-    }
-  };
-
-  const getElevator = (option) => {
-    removeElements();
-    if (checkboxElevator.checked) {
-      let samePins = option.filter(function (pin) {
-        const features = pin.offer.features;
-        return (features.includes(checkboxElevator.value));
-      });
-      return samePins;
-    } else {
-      return option;
-    }
-  };
-
-  const getConditioner = (option) => {
-    removeElements();
-    if (checkboxConditioner.checked) {
-      let samePins = option.filter(function (pin) {
-        const features = pin.offer.features;
-        return (features.includes(checkboxConditioner.value));
+        return (features.includes(elem.value));
       });
       return samePins;
     } else {
@@ -168,12 +104,12 @@
     let result2 = getHousingRooms(result);
     let result3 = getHousingGuest(result2);
     let result4 = getPrice(result3);
-    let result5 = getWifi(result4);
-    let result6 = getDishwasher(result5);
-    let result7 = getParking(result6);
-    let result8 = getWasher(result7);
-    let result9 = getElevator(result8);
-    let result10 = getConditioner(result9);
+    let result5 = getFeature(result4, checkboxWifi);
+    let result6 = getFeature(result5, checkboxDishwasher);
+    let result7 = getFeature(result6, checkboxParking);
+    let result8 = getFeature(result7, checkboxWasher);
+    let result9 = getFeature(result8, checkboxElevator);
+    let result10 = getFeature(result9, checkboxConditioner);
     window.main.addPinsToMap(result10);
   };
 
