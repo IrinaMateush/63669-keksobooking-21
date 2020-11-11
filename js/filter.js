@@ -38,33 +38,30 @@
     removeElements();
     if (typeOfHousing.value === ANY) {
       return option;
-    } else {
-      return option.filter((pin) => {
-        return String(pin.offer.type) === typeOfHousing.value;
-      });
     }
+    return option.filter((pin) => {
+      return String(pin.offer.type) === typeOfHousing.value;
+    });
   };
 
   const getHousingRooms = (option) => {
     removeElements();
     if (housungRooms.value === ANY) {
       return option;
-    } else {
-      return option.filter((pin) => {
-        return String(pin.offer.rooms) === housungRooms.value;
-      });
     }
+    return option.filter((pin) => {
+      return String(pin.offer.rooms) === housungRooms.value;
+    });
   };
 
   const getHousingGuest = (option) => {
     removeElements();
     if (housungGuests.value === ANY) {
       return option;
-    } else {
-      return option.filter((pin) => {
-        return String(pin.offer.guests) === housungGuests.value;
-      });
     }
+    return option.filter((pin) => {
+      return String(pin.offer.guests) === housungGuests.value;
+    });
   };
 
   const getPrice = (option) => {
