@@ -142,6 +142,7 @@
 
   noticeReset.addEventListener(`click`, () => {
     noticeForm.reset();
+    window.filter.removeElements();
     disabledAll();
   });
 
@@ -149,6 +150,7 @@
     noticeForm.reset();
     disabledAll();
     showSuccess();
+    window.filter.removeElements();
   };
 
   const errorUploadHandler = () => {

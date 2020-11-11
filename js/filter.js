@@ -116,4 +116,8 @@
     housungFeature.addEventListener(`change`, window.debounce(filterPins));
   }
 
+  window.filter = {
+    removeElements
+  };
+
 })();
