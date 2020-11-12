@@ -104,6 +104,6 @@
     getCapacity,
     createPhoto,
     renderSuccessMessage,
-    renderErrorMessage
+    renderErrorMessage,
   };
 })();

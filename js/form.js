@@ -12,7 +12,6 @@
   const noticeTimeOut = noticeForm.querySelector(`#timeout`);
   const noticeHousing = noticeForm.querySelector(`#type`);
   const noticePrice = noticeForm.querySelector(`#price`);
-  const noticeSubmit = noticeForm.querySelector(`.ad-form__submit`);
   const noticeReset = noticeForm.querySelector(`.ad-form__reset`);
   const addFormInputs = document.querySelectorAll(`.ad-form__element input`);
   const addFormSelects = document.querySelectorAll(`.ad-form__element select`);
@@ -41,6 +40,8 @@
     addFormDescription.setAttribute(`disabled`, `disabled`);
     noticeAvatar.setAttribute(`disabled`, `disabled`);
     noticeForm.classList.add(`ad-form--disabled`);
+    window.main.mainPin.style.top = window.move.mainPinPositionY + `px`;
+    window.main.mainPin.style.left = window.move.mainPinPositionX + `px`;
     noticeAddress.setAttribute(`placeholder`, window.move.mainPinCenterX + `, ` + window.move.mainPinCenterY);
   };
 
@@ -77,16 +78,18 @@
 
     const successMessage = document.querySelector(`.success`);
 
-    document.addEventListener(`click`, () => {
-      successMessage.remove();
-    });
-
-    document.addEventListener(`keydown`, (evt) => {
+    const pressEcsOnSuccess = (evt) => {
       if (evt.key === `Escape`) {
         evt.preventDefault();
         successMessage.remove();
       }
+    };
+
+    document.addEventListener(`click`, () => {
+      successMessage.remove();
     });
+
+    document.addEventListener(`keydown`, pressEcsOnSuccess);
   };
 
   const showError = () => {
@@ -100,44 +103,48 @@
       errorMessage.remove();
     });
 
-    document.addEventListener(`keydown`, (evt) => {
+    const pressEcsOnError = (evt) => {
       if (evt.key === `Escape`) {
         evt.preventDefault();
         errorMessage.remove();
       }
-    });
+    };
+
+    document.addEventListener(`keydown`, pressEcsOnError);
   };
 
   const checkFields = () => {
+    let isValid = true;
     if ((noticeRooms.value === `1`) && (noticeCapacity.value !== `1`)) {
       noticeRooms.setCustomValidity(`1 комната только для 1 гостя`);
       noticeRooms.reportValidity();
-      noticeRooms.style = `border: 2px solid red;`;
+      isValid = false;
     } else if (noticeTitle.validity.valueMissing) {
       noticeTitle.setCustomValidity(`Обязательное поле`);
       noticeTitle.reportValidity();
-      noticeTitle.style = `border: 2px solid red;`;
+      isValid = false;
     } else if (noticePrice.validity.valueMissing) {
       noticePrice.setCustomValidity(`Обязательное поле`);
       noticePrice.reportValidity();
-      noticePrice.style = `border: 2px solid red;`;
+      isValid = false;
     } else if (noticeTitle.validity.tooLong) {
       noticeTitle.setCustomValidity(`Максимальная длина - 100 символов`);
       noticeTitle.reportValidity();
-      noticeTitle.style = `border: 2px solid red;`;
+      isValid = false;
     } else if (noticeTitle.validity.tooShort) {
       noticeTitle.setCustomValidity(`Минимальная длина - 30 символов`);
       noticeTitle.reportValidity();
-      noticeTitle.style = `border: 2px solid red;`;
+      isValid = false;
     } else if (noticePrice.validity.rangeOverflow) {
       noticePrice.setCustomValidity(`Максимальное значение 1000000`);
       noticePrice.reportValidity();
-      noticePrice.style = `border: 2px solid red;`;
+      isValid = false;
     } else {
       noticeRooms.setCustomValidity(``);
       noticeTitle.setCustomValidity(``);
       noticePrice.setCustomValidity(``);
     }
+    return isValid;
   };
 
   noticeReset.addEventListener(`click`, () => {
@@ -157,7 +164,8 @@
     showError();
   };
 
-  noticeSubmit.addEventListener(`click`, () => {
+  noticeForm.addEventListener(`submit`, (evt) => {
+    evt.preventDefault();
     if (!checkFields()) {
       return;
     }

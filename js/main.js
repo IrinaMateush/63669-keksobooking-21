@@ -30,6 +30,9 @@
   };
 
   const activationСard = () => {
+    mainPin.removeEventListener(`keydown`, pressEnter);
+    document.removeEventListener(`keydown`, window.form.pressEcsOnSuccess);
+    document.removeEventListener(`keydown`, window.form.pressEcsOnError);
     map.classList.remove(`map--faded`);
     window.map.mapFilters.classList.remove(`ad-form--disabled`);
     window.form.noticeForm.classList.remove(`ad-form--disabled`);
@@ -60,11 +63,13 @@
     document.body.insertAdjacentElement(`afterbegin`, node);
   };
 
-  mainPin.addEventListener(`keydown`, (evt) => {
+  const pressEnter = (evt) => {
     if (evt.key === `Enter`) {
       activationСard(window.backend.load(window.main.successLoadHandler, window.main.errorLoadHandler));
     }
-  });
+  };
+
+  mainPin.addEventListener(`keydown`, pressEnter);
 
   window.main = {
     mainPin,
