@@ -1,6 +1,6 @@
 'use strict';
 
-(function () {
+(() => {
   const LEFT_MOUSE_BUTTON = 1;
   const START_BORDER_Y = 130;
   const END_BORDER_Y = 630;
@@ -8,12 +8,25 @@
   const END_BORDER_X = window.main.map.offsetWidth + START_BORDER_X;
 
   const mainPinHalf = window.main.mainPin.offsetWidth / 2;
-  let mainPinCenterX = Math.round(window.main.mainPin.getBoundingClientRect().left + mainPinHalf);
-  let mainPinCenterY = Math.round(window.main.mainPin.getBoundingClientRect().top + mainPinHalf);
+
   const MAIN_PIN_TAILS_HEIGHT = 22;
+
+  const getCoords = (elem) => {
+    let box = elem.getBoundingClientRect();
+
+    return {
+      top: Math.round(box.top + pageYOffset),
+      left: Math.round(box.left + pageXOffset)
+    };
+  };
+
+  const mainPinPositionX = getCoords(window.main.mainPin).left - START_BORDER_X;
+  const mainPinPositionY = getCoords(window.main.mainPin).top;
+  let mainPinCenterX = Math.round(getCoords(window.main.mainPin).left + mainPinHalf);
+  let mainPinCenterY = Math.round(getCoords(window.main.mainPin).top + mainPinHalf);
   let mainPinTailY = Math.round(mainPinCenterY + mainPinHalf + MAIN_PIN_TAILS_HEIGHT);
 
-  window.main.mainPin.addEventListener(`mousedown`, function (evt) {
+  window.main.mainPin.addEventListener(`mousedown`, (evt) => {
     evt.preventDefault();
     if (evt.which === LEFT_MOUSE_BUTTON) {
 
@@ -22,7 +35,7 @@
         y: evt.clientY
       };
 
-      const onMouseMove = (moveEvt) => {
+      const moveMouse = (moveEvt) => {
         moveEvt.preventDefault();
 
         let shift = {
@@ -60,15 +73,15 @@
         window.form.noticeAddress.setAttribute(`value`, mainPinCenterX + `, ` + mainPinTailY);
       };
 
-      const onMouseUp = (upEvt) => {
+      const upMouse = (upEvt) => {
         upEvt.preventDefault();
 
-        document.removeEventListener(`mousemove`, onMouseMove);
-        document.removeEventListener(`mouseup`, onMouseUp);
+        document.removeEventListener(`mousemove`, moveMouse);
+        document.removeEventListener(`mouseup`, upMouse);
       };
 
-      document.addEventListener(`mousemove`, onMouseMove);
-      document.addEventListener(`mouseup`, onMouseUp);
+      document.addEventListener(`mousemove`, moveMouse);
+      document.addEventListener(`mouseup`, upMouse);
 
       window.main.activationСard(window.backend.load(window.main.successLoadHandler, window.main.errorLoadHandler));
     }
@@ -77,7 +90,9 @@
   window.move = {
     mainPinTailY,
     mainPinCenterX,
-    mainPinCenterY
+    mainPinCenterY,
+    mainPinPositionX,
+    mainPinPositionY
   };
 
 })();

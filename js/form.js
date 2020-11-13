@@ -1,6 +1,6 @@
 'use strict';
 
-(function () {
+(() => {
   const main = document.querySelector(`main`);
   const noticeForm = document.querySelector(`form.ad-form`);
   const noticeAvatar = noticeForm.querySelector(`#avatar`);
@@ -12,7 +12,6 @@
   const noticeTimeOut = noticeForm.querySelector(`#timeout`);
   const noticeHousing = noticeForm.querySelector(`#type`);
   const noticePrice = noticeForm.querySelector(`#price`);
-  const noticeSubmit = noticeForm.querySelector(`.ad-form__submit`);
   const noticeReset = noticeForm.querySelector(`.ad-form__reset`);
   const addFormInputs = document.querySelectorAll(`.ad-form__element input`);
   const addFormSelects = document.querySelectorAll(`.ad-form__element select`);
@@ -41,6 +40,8 @@
     addFormDescription.setAttribute(`disabled`, `disabled`);
     noticeAvatar.setAttribute(`disabled`, `disabled`);
     noticeForm.classList.add(`ad-form--disabled`);
+    window.main.mainPin.style.top = window.move.mainPinPositionY + `px`;
+    window.main.mainPin.style.left = window.move.mainPinPositionX + `px`;
     noticeAddress.setAttribute(`placeholder`, window.move.mainPinCenterX + `, ` + window.move.mainPinCenterY);
   };
 
@@ -77,16 +78,18 @@
 
     const successMessage = document.querySelector(`.success`);
 
-    document.addEventListener(`click`, function () {
-      successMessage.remove();
-    });
-
-    document.addEventListener(`keydown`, function (evt) {
+    const pressEcsOnSuccess = (evt) => {
       if (evt.key === `Escape`) {
         evt.preventDefault();
         successMessage.remove();
       }
+    };
+
+    document.addEventListener(`click`, () => {
+      successMessage.remove();
     });
+
+    document.addEventListener(`keydown`, pressEcsOnSuccess);
   };
 
   const showError = () => {
@@ -96,46 +99,57 @@
 
     const errorMessage = document.querySelector(`.error`);
 
-    document.addEventListener(`click`, function () {
+    document.addEventListener(`click`, () => {
       errorMessage.remove();
     });
 
-    document.addEventListener(`keydown`, function (evt) {
+    const pressEcsOnError = (evt) => {
       if (evt.key === `Escape`) {
         evt.preventDefault();
         errorMessage.remove();
       }
-    });
+    };
+
+    document.addEventListener(`keydown`, pressEcsOnError);
   };
 
   const checkFields = () => {
+    let isValid = true;
     if ((noticeRooms.value === `1`) && (noticeCapacity.value !== `1`)) {
       noticeRooms.setCustomValidity(`1 комната только для 1 гостя`);
       noticeRooms.reportValidity();
+      isValid = false;
     } else if (noticeTitle.validity.valueMissing) {
       noticeTitle.setCustomValidity(`Обязательное поле`);
       noticeTitle.reportValidity();
+      isValid = false;
     } else if (noticePrice.validity.valueMissing) {
       noticePrice.setCustomValidity(`Обязательное поле`);
       noticePrice.reportValidity();
+      isValid = false;
     } else if (noticeTitle.validity.tooLong) {
       noticeTitle.setCustomValidity(`Максимальная длина - 100 символов`);
       noticeTitle.reportValidity();
+      isValid = false;
     } else if (noticeTitle.validity.tooShort) {
       noticeTitle.setCustomValidity(`Минимальная длина - 30 символов`);
       noticeTitle.reportValidity();
+      isValid = false;
     } else if (noticePrice.validity.rangeOverflow) {
       noticePrice.setCustomValidity(`Максимальное значение 1000000`);
       noticePrice.reportValidity();
+      isValid = false;
     } else {
       noticeRooms.setCustomValidity(``);
       noticeTitle.setCustomValidity(``);
       noticePrice.setCustomValidity(``);
     }
+    return isValid;
   };
 
-  noticeReset.addEventListener(`click`, function () {
+  noticeReset.addEventListener(`click`, () => {
     noticeForm.reset();
+    window.filter.removeElements();
     disabledAll();
   });
 
@@ -143,36 +157,38 @@
     noticeForm.reset();
     disabledAll();
     showSuccess();
+    window.filter.removeElements();
   };
 
   const errorUploadHandler = () => {
     showError();
   };
 
-  noticeSubmit.addEventListener(`click`, function () {
+  noticeForm.addEventListener(`submit`, (evt) => {
+    evt.preventDefault();
     if (!checkFields()) {
       return;
     }
     window.backend.upload(new FormData(noticeForm), successUploadHandler, errorUploadHandler);
   });
 
-  noticeCapacity.addEventListener(`change`, function () {
+  noticeCapacity.addEventListener(`change`, () => {
     checkAvailability();
   });
 
-  noticeRooms.addEventListener(`change`, function () {
+  noticeRooms.addEventListener(`change`, () => {
     checkAvailability();
   });
 
-  noticeTimeIn.addEventListener(`change`, function () {
+  noticeTimeIn.addEventListener(`change`, () => {
     synchronizeTime(noticeTimeOut, noticeTimeIn);
   });
 
-  noticeTimeOut.addEventListener(`change`, function () {
+  noticeTimeOut.addEventListener(`change`, () => {
     synchronizeTime(noticeTimeIn, noticeTimeOut);
   });
 
-  noticeHousing.addEventListener(`change`, function () {
+  noticeHousing.addEventListener(`change`, () => {
     const cost = window.data.getLivingTypeCost(noticeHousing);
     noticePrice.setAttribute(`placeholder`, cost);
     noticePrice.setAttribute(`min`, cost);

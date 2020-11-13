@@ -1,19 +1,19 @@
 'use strict';
 
-(function () {
+(() => {
   const loadURL = `https://21.javascript.pages.academy/keksobooking/data`;
   const uploadURL = `https://21.javascript.pages.academy/keksobooking`;
 
-  const load = (onSuccess, onError) => {
+  const load = (getSuccess, getError) => {
     const xhr = new XMLHttpRequest();
     xhr.responseType = `json`;
 
-    xhr.addEventListener(`load`, function () {
+    xhr.addEventListener(`load`, () => {
       let error;
 
       switch (xhr.status) {
         case 200:
-          onSuccess(xhr.response);
+          getSuccess(xhr.response);
           break;
 
         case 400:
@@ -31,16 +31,16 @@
       }
 
       if (error) {
-        onError(error);
+        getError(error);
       }
     });
 
-    xhr.addEventListener(`error`, function () {
-      onError(`Произошла ошибка соединения`);
+    xhr.addEventListener(`error`, () => {
+      getError(`Произошла ошибка соединения`);
     });
 
-    xhr.addEventListener(`timeout`, function () {
-      onError(`Запрос не успел выполниться за ` + xhr.timeout + `мс`);
+    xhr.addEventListener(`timeout`, () => {
+      getError(`Запрос не успел выполниться за ` + xhr.timeout + `мс`);
     });
 
     xhr.timeout = 10000;
@@ -49,16 +49,16 @@
     xhr.send();
   };
 
-  const upload = (data, onSuccess, onError) => {
+  const upload = (data, getSuccess, getError) => {
     let xhr = new XMLHttpRequest();
     xhr.responseType = `json`;
 
-    xhr.addEventListener(`load`, function () {
+    xhr.addEventListener(`load`, () => {
 
       if (xhr.status === 200) {
-        onSuccess(xhr.response);
+        getSuccess(xhr.response);
       } else {
-        onError(`Статус ответа: ` + xhr.status + ` ` + xhr.statusText);
+        getError(`Статус ответа: ` + xhr.status + ` ` + xhr.statusText);
       }
     });
 

@@ -1,16 +1,17 @@
 'use strict';
 
-(function () {
+(() => {
   const mainPin = document.querySelector(`.map__pin--main`);
   const map = document.querySelector(`.map`);
   const pinListElement = document.querySelector(`.map__pins`);
-  const typeOfHousing = document.querySelector(`#housing-type`);
-  const PINS_COUNT = 5;
-  let livingType = `any`;
 
-  const addPinsToMap = (pins, count) => {
+  const PINS_COUNT = 5;
+
+  const addPinsToMap = (pins) => {
     const pinsFragment = document.createDocumentFragment();
-    for (let i = 0; i < count; i++) {
+    const pinsCount = pins.length < PINS_COUNT ? pins.length : PINS_COUNT;
+
+    for (let i = 0; i < pinsCount; i++) {
       pinsFragment.appendChild(window.map.renderPin(pins[i]));
     }
 
@@ -20,7 +21,7 @@
     window.pinElements = pinElements;
 
     for (let pinElement of pinElements) {
-      pinElement.addEventListener(`click`, function () {
+      pinElement.addEventListener(`click`, () => {
         const pinsAvatar = pinElement.querySelector(`img`).getAttribute(`src`);
         window.map.openCard(pinsAvatar);
         window.map.closePopup();
@@ -29,6 +30,9 @@
   };
 
   const activationСard = () => {
+    mainPin.removeEventListener(`keydown`, pressEnter);
+    document.removeEventListener(`keydown`, window.form.pressEcsOnSuccess);
+    document.removeEventListener(`keydown`, window.form.pressEcsOnError);
     map.classList.remove(`map--faded`);
     window.map.mapFilters.classList.remove(`ad-form--disabled`);
     window.form.noticeForm.classList.remove(`ad-form--disabled`);
@@ -41,38 +45,9 @@
     window.form.noticeAddress.setAttribute(`value`, window.move.mainPinCenterX + `, ` + window.move.mainPinTailY);
   };
 
-
-  typeOfHousing.addEventListener(`change`, function () {
-    const cardPopup = document.querySelector(`.popup`);
-    if (cardPopup !== null) {
-      cardPopup.remove();
-    }
-
-    if (window.pinElements !== null) {
-      for (let pinElement of window.pinElements) {
-        pinElement.remove();
-      }
-    }
-
-    livingType = typeOfHousing.value;
-
-    if (livingType !== `any`) {
-      let samePins = window.pins.filter(function (pin) {
-        return pin.offer.type === livingType;
-      });
-      filterPins(samePins);
-    } else {
-      successLoadHandler(window.pins);
-    }
-  });
-
-  const filterPins = (pins) => {
-    addPinsToMap(pins, pins.length);
-  };
-
   const successLoadHandler = (pins) => {
     window.pins = pins;
-    addPinsToMap(pins, PINS_COUNT);
+    addPinsToMap(pins);
     activationСard();
   };
 
@@ -88,18 +63,21 @@
     document.body.insertAdjacentElement(`afterbegin`, node);
   };
 
-  mainPin.addEventListener(`keydown`, function (evt) {
+  const pressEnter = (evt) => {
     if (evt.key === `Enter`) {
       activationСard(window.backend.load(window.main.successLoadHandler, window.main.errorLoadHandler));
     }
-  });
+  };
+
+  mainPin.addEventListener(`keydown`, pressEnter);
 
   window.main = {
     mainPin,
     map,
     activationСard,
     successLoadHandler,
-    errorLoadHandler
+    errorLoadHandler,
+    addPinsToMap
   };
 
 })();
