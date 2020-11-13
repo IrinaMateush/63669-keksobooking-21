@@ -5,8 +5,8 @@
   const FEATURES = [`wifi`, `dishwasher`, `parking`, `washer`, `elevator`, `conditioner`];
   const PHOTOS = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0.github.io/assets/images/tokyo/hotel2.jpg`, `http://o0.github.io/assets/images/tokyo/hotel3.jpg`];
   const TYPES = [`palace`, `flat`, `house`, `bungalo`];
-  const CHECKIN = [`12:00`, `13:00`, `14:00`];
-  const CHECKOUT = [`12:00`, `13:00`, `14:00`];
+  const CHECKINTIMES = [`12:00`, `13:00`, `14:00`];
+  const CHECKOUTTIMES = [`12:00`, `13:00`, `14:00`];
   const successTemplate = document.querySelector(`#success`).content.querySelector(`.success`);
   const errorTemplate = document.querySelector(`#error`).content.querySelector(`.error`);
 
@@ -23,12 +23,6 @@
       newArr.push(arr[i]);
     }
     return newArr;
-  };
-
-  const getFeatures = (features) => {
-    return window.data.getArrayRandomLength(features).map((it) => {
-      return it;
-    }).join(`, `);
   };
 
   const getLivingType = (pin) => {
@@ -94,11 +88,10 @@
     FEATURES,
     PHOTOS,
     TYPES,
-    CHECKIN,
-    CHECKOUT,
+    CHECKINTIMES,
+    CHECKOUTTIMES,
     getRandomInt,
     getArrayRandomLength,
-    getFeatures,
     getLivingType,
     getLivingTypeCost,
     getCapacity,

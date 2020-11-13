@@ -5,9 +5,9 @@
 
   const getPhotos = (pin, cardElement) => {
     const randomPhotos = pin.offer.photos;
+
     const photosElement = cardElement.querySelector(`.popup__photos`);
     const photoElement = photosElement.querySelector(`.popup__photo`);
-
     const photosFragment = document.createDocumentFragment();
 
     for (let i = 0; i < randomPhotos.length; i++) {
@@ -20,6 +20,8 @@
 
     if (photosFragment.children.length) {
       photosElement.appendChild(photosFragment);
+    } else {
+      photosElement.classList.add(`hidden`);
     }
   };
 

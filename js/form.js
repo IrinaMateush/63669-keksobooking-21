@@ -16,8 +16,9 @@
   const addFormInputs = document.querySelectorAll(`.ad-form__element input`);
   const addFormSelects = document.querySelectorAll(`.ad-form__element select`);
   const addFormDescription = document.querySelector(`#description`);
-  const HOUSING_MIN_COST = 5000;
+  const HOUSING_MIN_COST = 1000;
 
+  noticePrice.setAttribute(`placeholder`, HOUSING_MIN_COST);
   noticePrice.setAttribute(`min`, HOUSING_MIN_COST);
 
   const disabledFields = (elements) => {
@@ -34,7 +35,7 @@
 
   const disabledAll = () => {
     disabledFields(window.map.mapSelectFilters);
-    disabledFields(window.map.mapСheckboxFilters);
+    disabledFields(window.map.mapCheckboxFilters);
     disabledFields(addFormInputs);
     disabledFields(addFormSelects);
     addFormDescription.setAttribute(`disabled`, `disabled`);
@@ -42,10 +43,10 @@
     noticeForm.classList.add(`ad-form--disabled`);
     window.main.mainPin.style.top = window.move.mainPinPositionY + `px`;
     window.main.mainPin.style.left = window.move.mainPinPositionX + `px`;
-    noticeAddress.setAttribute(`placeholder`, window.move.mainPinCenterX + `, ` + window.move.mainPinCenterY);
   };
 
   disabledAll();
+  noticeAddress.setAttribute(`placeholder`, window.move.mainPinCenterX + `, ` + window.move.mainPinCenterY);
 
   const checkAvailability = () => {
     if ((noticeRooms.value === `1`) && (noticeCapacity.value !== `1`)) {
@@ -151,6 +152,7 @@
     noticeForm.reset();
     window.filter.removeElements();
     disabledAll();
+    window.form.noticeAddress.setAttribute(`value`, window.move.mainPinCenterX + `, ` + window.move.mainPinTailY);
   });
 
   const successUploadHandler = () => {
@@ -158,6 +160,7 @@
     disabledAll();
     showSuccess();
     window.filter.removeElements();
+    window.form.noticeAddress.setAttribute(`value`, window.move.mainPinCenterX + `, ` + window.move.mainPinTailY);
   };
 
   const errorUploadHandler = () => {
