@@ -172,13 +172,9 @@
     window.backend.upload(new FormData(noticeForm), successUploadHandler, errorUploadHandler);
   });
 
-  noticeCapacity.addEventListener(`change`, () => {
-    checkAvailability();
-  });
+  noticeCapacity.addEventListener(`change`, checkAvailability);
 
-  noticeRooms.addEventListener(`change`, () => {
-    checkAvailability();
-  });
+  noticeRooms.addEventListener(`change`, checkAvailability);
 
   noticeTimeIn.addEventListener(`change`, () => {
     synchronizeTime(noticeTimeOut, noticeTimeIn);
