@@ -33,9 +33,23 @@
     }
   };
 
+  const changeCursorDefaut = (elements) => {
+    for (let element of elements) {
+      element.style.cursor = `default`;
+    }
+  };
+
+  const changeCursorPointer = (elements) => {
+    for (let element of elements) {
+      element.style.cursor = `pointer`;
+    }
+  };
+
   const disabledAll = () => {
     disabledFields(window.map.mapSelectFilters);
     disabledFields(window.map.mapCheckboxFilters);
+    changeCursorDefaut(window.map.mapSelectFilters);
+    changeCursorDefaut(window.map.mapLabelFilters);
     disabledFields(addFormInputs);
     disabledFields(addFormSelects);
     addFormDescription.setAttribute(`disabled`, `disabled`);
@@ -201,6 +215,7 @@
     noticeAvatar,
     noticeAddress,
     activateForm,
+    changeCursorPointer,
     showError
   };
 

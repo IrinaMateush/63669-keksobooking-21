@@ -42,6 +42,8 @@
     window.form.activateForm(window.map.mapCheckboxFilters);
     window.form.activateForm(window.form.addFormInputs);
     window.form.activateForm(window.form.addFormSelects);
+    window.form.changeCursorPointer(window.map.mapSelectFilters);
+    window.form.changeCursorPointer(window.map.mapLabelFilters);
     window.form.noticeAddress.setAttribute(`value`, window.move.mainPinCenterX + `, ` + window.move.mainPinTailY);
   };
 
