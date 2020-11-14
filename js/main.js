@@ -50,6 +50,7 @@
   const successLoadHandler = (pins) => {
     window.pins = pins;
     addPinsToMap(pins);
+    window.main.mainPin.removeEventListener(`mousedown`, window.move.trackMouse);
     activationСard();
   };
 
