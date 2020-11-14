@@ -1,6 +1,10 @@
 'use strict';
 
 (() => {
+  const ANY = `any`;
+  const LOW = `low`;
+  const MIDDLE = `middle`;
+  const HIGT = `higt`;
   const typeOfHousing = document.querySelector(`#housing-type`);
   const housingPrice = document.querySelector(`#housing-price`);
   const housingRooms = document.querySelector(`#housing-rooms`);
@@ -15,11 +19,6 @@
 
   const housingFeatures = document.querySelectorAll(`.map__checkbox`);
   const mapFilters = document.querySelectorAll(`.map__filter`);
-
-  const ANY = `any`;
-  const LOW = `low`;
-  const MIDDLE = `middle`;
-  const HIGT = `higt`;
 
   const removeElements = () => {
     const cardPopup = document.querySelector(`.popup`);

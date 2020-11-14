@@ -1,6 +1,7 @@
 'use strict';
 
 (() => {
+  const HOUSING_MIN_COST = 1000;
   const main = document.querySelector(`main`);
   const noticeForm = document.querySelector(`form.ad-form`);
   const noticeAvatar = noticeForm.querySelector(`#avatar`);
@@ -16,7 +17,6 @@
   const addFormInputs = document.querySelectorAll(`.ad-form__element input`);
   const addFormSelects = document.querySelectorAll(`.ad-form__element select`);
   const addFormDescription = document.querySelector(`#description`);
-  const HOUSING_MIN_COST = 1000;
 
   noticePrice.setAttribute(`placeholder`, HOUSING_MIN_COST);
   noticePrice.setAttribute(`min`, HOUSING_MIN_COST);
@@ -114,7 +114,7 @@
 
     const errorMessage = document.querySelector(`.error`);
 
-    document.addEventListener(`click`, () => {
+    errorMessage.addEventListener(`click`, () => {
       errorMessage.remove();
     });
 
@@ -177,7 +177,7 @@
     window.form.noticeAddress.setAttribute(`value`, window.move.mainPinCenterX + `, ` + window.move.mainPinTailY);
   };
 
-  const errorUploadHandler = () => {
+  const errorLoadHandler = () => {
     showError();
   };
 
@@ -186,7 +186,7 @@
     if (!checkFields()) {
       return;
     }
-    window.backend.upload(new FormData(noticeForm), successUploadHandler, errorUploadHandler);
+    window.backend.upload(new FormData(noticeForm), successUploadHandler, errorLoadHandler);
   });
 
   noticeCapacity.addEventListener(`change`, checkAvailability);
@@ -216,6 +216,7 @@
     noticeAddress,
     activateForm,
     changeCursorPointer,
+    errorLoadHandler,
     showError
   };
 

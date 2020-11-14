@@ -5,7 +5,6 @@
 
   const getPhotos = (pin, cardElement) => {
     const randomPhotos = pin.offer.photos;
-
     const photosElement = cardElement.querySelector(`.popup__photos`);
     const photoElement = photosElement.querySelector(`.popup__photo`);
     const photosFragment = document.createDocumentFragment();

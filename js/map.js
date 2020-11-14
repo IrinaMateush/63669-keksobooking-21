@@ -1,14 +1,13 @@
 'use strict';
 
 (() => {
-
+  const PIN_HALF_WIDTH = 23;
+  const PIN_HEIGHT = 64;
   const mapFilters = window.main.map.querySelector(`.map__filters-container`);
   const mapSelectFilters = mapFilters.querySelectorAll(`.map__filter`);
   const mapCheckboxFilters = mapFilters.querySelectorAll(`.map__checkbox`);
   const mapLabelFilters = mapFilters.querySelectorAll(`.map__feature`);
   const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
-  const PIN_HALF_WIDTH = 23;
-  const PIN_HEIGHT = 64;
 
   mapFilters.classList.add(`ad-form--disabled`);
 
@@ -46,14 +45,13 @@
       cardPopup.remove();
     });
 
-    const closePopupWithEsc = (evt) => {
+    document.addEventListener(`keydown`, (evt) => {
       if (evt.key === `Escape`) {
         evt.preventDefault();
         cardPopup.remove();
       }
-    };
+    });
 
-    document.addEventListener(`keydown`, closePopupWithEsc);
   };
 
   window.map = {

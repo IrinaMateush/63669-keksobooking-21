@@ -16,15 +16,6 @@
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
-  const getArrayRandomLength = (arr) => {
-    const newArrayLength = window.data.getRandomInt(1, arr.length);
-    const newArr = [];
-    for (let i = 0; i < newArrayLength; i++) {
-      newArr.push(arr[i]);
-    }
-    return newArr;
-  };
-
   const getLivingType = (pin) => {
     switch (pin.offer.type) {
       case `palace`:
@@ -91,7 +82,6 @@
     CHECKINTIMES,
     CHECKOUTTIMES,
     getRandomInt,
-    getArrayRandomLength,
     getLivingType,
     getLivingTypeCost,
     getCapacity,

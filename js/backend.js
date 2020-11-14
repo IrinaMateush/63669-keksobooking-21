@@ -1,8 +1,8 @@
 'use strict';
 
 (() => {
-  const loadURL = `https://21.javascript.pages.academy/keksobooking/data`;
-  const uploadURL = `https://21.javascript.pages.academy/keksobooking`;
+  const LOAD_URL = `https://21.javascript.pages.academy/keksobooking/data`;
+  const UPLOAD_URL = `https://21.javascript.pages.academy/keksobooking`;
 
   const load = (onSuccess, onError) => {
     const xhr = new XMLHttpRequest();
@@ -45,7 +45,7 @@
 
     xhr.timeout = 10000;
 
-    xhr.open(`GET`, loadURL);
+    xhr.open(`GET`, LOAD_URL);
     xhr.send();
   };
 
@@ -62,7 +62,11 @@
       }
     });
 
-    xhr.open(`POST`, uploadURL);
+    xhr.addEventListener(`error`, () => {
+      window.form.errorLoadHandler();
+    });
+
+    xhr.open(`POST`, UPLOAD_URL);
     xhr.send(data);
   };
 

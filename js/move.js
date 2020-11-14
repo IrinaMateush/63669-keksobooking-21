@@ -6,10 +6,9 @@
   const END_BORDER_Y = 630;
   const START_BORDER_X = window.main.map.offsetLeft;
   const END_BORDER_X = window.main.map.offsetWidth + START_BORDER_X;
+  const MAIN_PIN_TAILS_HEIGHT = 22;
 
   const mainPinHalf = window.main.mainPin.offsetWidth / 2;
-
-  const MAIN_PIN_TAILS_HEIGHT = 22;
 
   const getCoords = (elem) => {
     let box = elem.getBoundingClientRect();
@@ -83,7 +82,7 @@
       document.addEventListener(`mousemove`, moveMouse);
       document.addEventListener(`mouseup`, upMouse);
 
-      window.main.activationСard(window.backend.load(window.main.successLoadHandler, window.main.errorLoadHandler));
+      window.main.activationСard(window.backend.load(window.main.successLoadHandler, window.form.errorLoadHandler));
     }
   };
 
