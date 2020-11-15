@@ -39,16 +39,16 @@
     document.removeEventListener(`keydown`, window.form.successEscPressHandler);
     document.removeEventListener(`keydown`, window.form.errorEscPressHandler);
     map.classList.remove(`map--faded`);
-    window.map.mapFilters.classList.remove(`ad-form--disabled`);
+    window.map.filtersContainer.classList.remove(`ad-form--disabled`);
     window.form.noticeBlank.classList.remove(`ad-form--disabled`);
     window.form.noticeAvatar.removeAttribute(`disabled`, `disabled`);
     window.form.noticeDescription.removeAttribute(`disabled`, `disabled`);
-    window.form.activateFields(window.map.mapSelectFilters);
-    window.form.activateFields(window.map.mapCheckboxFilters);
+    window.form.activateFields(window.map.selectFilters);
+    window.form.activateFields(window.map.checkboxFilters);
     window.form.activateFields(window.form.noticeInputs);
     window.form.activateFields(window.form.noticeSelects);
-    window.form.changeCursorPointer(window.map.mapSelectFilters);
-    window.form.changeCursorPointer(window.map.mapLabelFilters);
+    window.form.changeCursorPointer(window.map.selectFilters);
+    window.form.changeCursorPointer(window.map.labelFilters);
     window.form.noticeAddress.setAttribute(`value`, window.move.orangePinCenterX + `, ` + window.move.orangePinTailY);
   };
 

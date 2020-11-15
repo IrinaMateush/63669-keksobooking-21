@@ -46,10 +46,10 @@
   };
 
   const disabledAll = () => {
-    disabledFields(window.map.mapSelectFilters);
-    disabledFields(window.map.mapCheckboxFilters);
-    changeCursorDefaut(window.map.mapSelectFilters);
-    changeCursorDefaut(window.map.mapLabelFilters);
+    disabledFields(window.map.selectFilters);
+    disabledFields(window.map.checkboxFilters);
+    changeCursorDefaut(window.map.selectFilters);
+    changeCursorDefaut(window.map.labelFilters);
     disabledFields(noticeInputs);
     disabledFields(noticeSelects);
     noticeDescription.setAttribute(`disabled`, `disabled`);

@@ -3,13 +3,13 @@
 (() => {
   const PIN_HALF_WIDTH = 23;
   const PIN_HEIGHT = 64;
-  const mapFilters = window.main.map.querySelector(`.map__filters-container`);
-  const mapSelectFilters = mapFilters.querySelectorAll(`.map__filter`);
-  const mapCheckboxFilters = mapFilters.querySelectorAll(`.map__checkbox`);
-  const mapLabelFilters = mapFilters.querySelectorAll(`.map__feature`);
+  const filtersContainer = window.main.map.querySelector(`.map__filters-container`);
+  const selectFilters = filtersContainer.querySelectorAll(`.map__filter`);
+  const checkboxFilters = filtersContainer.querySelectorAll(`.map__checkbox`);
+  const labelFilters = filtersContainer.querySelectorAll(`.map__feature`);
   const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 
-  mapFilters.classList.add(`ad-form--disabled`);
+  filtersContainer.classList.add(`ad-form--disabled`);
 
   const renderPin = (pin) => {
     const pinElement = pinTemplate.cloneNode(true);
@@ -35,7 +35,7 @@
         cardsFragment.appendChild(window.card.renderAdvertising(pin));
       }
     }
-    window.main.map.insertBefore(cardsFragment, window.map.mapFilters);
+    window.main.map.insertBefore(cardsFragment, window.map.filtersContainer);
   };
 
   const closePopup = () => {
@@ -55,12 +55,12 @@
   };
 
   window.map = {
-    mapFilters,
-    mapSelectFilters,
-    mapCheckboxFilters,
+    filtersContainer,
+    selectFilters,
+    checkboxFilters,
+    labelFilters,
     renderPin,
     openAdvertising,
-    mapLabelFilters,
     closePopup
   };
 
