@@ -82,7 +82,7 @@
       document.addEventListener(`mousemove`, moveMouse);
       document.addEventListener(`mouseup`, upMouse);
 
-      window.main.activationСard(window.backend.load(window.main.successLoadHandler, window.form.errorLoadHandler));
+      window.main.activationСard(window.backend.load(`GET`, window.backend.LOAD_URL, window.main.successLoadHandler));
     }
   };
 

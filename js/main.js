@@ -61,7 +61,7 @@
 
   const pressEnter = (evt) => {
     if (evt.key === `Enter`) {
-      activationСard(window.backend.load(window.main.successLoadHandler, window.form.errorLoadHandler));
+      activationСard(window.backend.load(`GET`, window.backend.LOAD_URL, window.main.successLoadHandler));
     }
   };
 

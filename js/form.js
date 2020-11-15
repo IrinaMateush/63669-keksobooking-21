@@ -186,7 +186,7 @@
     if (!checkFields()) {
       return;
     }
-    window.backend.upload(new FormData(noticeForm), successUploadHandler, errorLoadHandler);
+    window.backend.load(`POST`, window.backend.UPLOAD_URL, successUploadHandler);
   });
 
   noticeCapacity.addEventListener(`change`, checkAvailability);
