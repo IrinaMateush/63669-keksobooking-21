@@ -3,20 +3,20 @@
 (() => {
   const HOUSING_MIN_COST = 1000;
   const main = document.querySelector(`main`);
-  const noticeForm = document.querySelector(`form.ad-form`);
-  const noticeAvatar = noticeForm.querySelector(`#avatar`);
-  const noticeRooms = noticeForm.querySelector(`#room_number`);
-  const noticeTitle = noticeForm.querySelector(`#title`);
-  const noticeCapacity = noticeForm.querySelector(`#capacity`);
-  const noticeAddress = noticeForm.querySelector(`#address`);
-  const noticeTimeIn = noticeForm.querySelector(`#timein`);
-  const noticeTimeOut = noticeForm.querySelector(`#timeout`);
-  const noticeHousing = noticeForm.querySelector(`#type`);
-  const noticePrice = noticeForm.querySelector(`#price`);
-  const noticeReset = noticeForm.querySelector(`.ad-form__reset`);
-  const addFormInputs = document.querySelectorAll(`.ad-form__element input`);
-  const addFormSelects = document.querySelectorAll(`.ad-form__element select`);
-  const addFormDescription = document.querySelector(`#description`);
+  const noticeBlank = document.querySelector(`form.ad-form`);
+  const noticeAvatar = noticeBlank.querySelector(`#avatar`);
+  const noticeRooms = noticeBlank.querySelector(`#room_number`);
+  const noticeTitle = noticeBlank.querySelector(`#title`);
+  const noticeCapacity = noticeBlank.querySelector(`#capacity`);
+  const noticeAddress = noticeBlank.querySelector(`#address`);
+  const noticeTimeIn = noticeBlank.querySelector(`#timein`);
+  const noticeTimeOut = noticeBlank.querySelector(`#timeout`);
+  const noticeHousing = noticeBlank.querySelector(`#type`);
+  const noticePrice = noticeBlank.querySelector(`#price`);
+  const noticeReset = noticeBlank.querySelector(`.ad-form__reset`);
+  const noticeInputs = document.querySelectorAll(`.ad-form__element input`);
+  const noticeSelects = document.querySelectorAll(`.ad-form__element select`);
+  const noticeDescription = document.querySelector(`#description`);
 
   noticePrice.setAttribute(`placeholder`, HOUSING_MIN_COST);
   noticePrice.setAttribute(`min`, HOUSING_MIN_COST);
@@ -27,7 +27,7 @@
     }
   };
 
-  const activateForm = (elements) => {
+  const activateFields = (elements) => {
     for (const element of elements) {
       element.removeAttribute(`disabled`, `disabled`);
     }
@@ -50,11 +50,11 @@
     disabledFields(window.map.mapCheckboxFilters);
     changeCursorDefaut(window.map.mapSelectFilters);
     changeCursorDefaut(window.map.mapLabelFilters);
-    disabledFields(addFormInputs);
-    disabledFields(addFormSelects);
-    addFormDescription.setAttribute(`disabled`, `disabled`);
+    disabledFields(noticeInputs);
+    disabledFields(noticeSelects);
+    noticeDescription.setAttribute(`disabled`, `disabled`);
     noticeAvatar.setAttribute(`disabled`, `disabled`);
-    noticeForm.classList.add(`ad-form--disabled`);
+    noticeBlank.classList.add(`ad-form--disabled`);
     window.main.mainPin.style.top = window.move.mainPinPositionY + `px`;
     window.main.mainPin.style.left = window.move.mainPinPositionX + `px`;
   };
@@ -163,7 +163,7 @@
   };
 
   noticeReset.addEventListener(`click`, () => {
-    noticeForm.reset();
+    noticeBlank.reset();
     window.filter.removeElements();
     disabledAll();
     window.form.noticeAddress.setAttribute(`value`, window.move.mainPinCenterX + `, ` + window.move.mainPinTailY);
@@ -171,7 +171,7 @@
   });
 
   const successUploadHandler = () => {
-    noticeForm.reset();
+    noticeBlank.reset();
     disabledAll();
     showSuccess();
     window.filter.removeElements();
@@ -182,7 +182,7 @@
     showError();
   };
 
-  noticeForm.addEventListener(`submit`, (evt) => {
+  noticeBlank.addEventListener(`submit`, (evt) => {
     evt.preventDefault();
     if (!checkFields()) {
       return;
@@ -210,13 +210,13 @@
   });
 
   window.form = {
-    noticeForm,
-    addFormInputs,
-    addFormSelects,
-    addFormDescription,
+    noticeBlank,
+    noticeInputs,
+    noticeSelects,
+    noticeDescription,
     noticeAvatar,
     noticeAddress,
-    activateForm,
+    activateFields,
     changeCursorPointer,
     errorLoadHandler,
     showError

@@ -19,7 +19,7 @@
     });
 
     xhr.open(method, url);
-    return (url === UPLOAD_URL) ? xhr.send(new FormData(window.form.noticeForm)) : xhr.send();
+    return (url === UPLOAD_URL) ? xhr.send(new FormData(window.form.noticeBlank)) : xhr.send();
   };
 
   window.backend = {
