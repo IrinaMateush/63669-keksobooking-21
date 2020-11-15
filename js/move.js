@@ -25,6 +25,12 @@
   let mainPinCenterY = Math.round(getCoords(window.main.mainPin).top + mainPinHalf);
   let mainPinTailY = Math.round(mainPinCenterY + mainPinHalf + MAIN_PIN_TAILS_HEIGHT);
 
+  const getPins = () => {
+    window.main.activationСard(window.backend.workWithServer(`GET`, window.backend.LOAD_URL, window.main.successLoadHandler));
+  };
+
+  window.main.mainPin.addEventListener(`click`, getPins);
+
   window.main.mainPin.addEventListener(`mousedown`, (evt) => {
     evt.preventDefault();
     if (evt.which === LEFT_MOUSE_BUTTON) {
@@ -81,13 +87,12 @@
 
       document.addEventListener(`mousemove`, moveMouse);
       document.addEventListener(`mouseup`, upMouse);
-
-      window.main.activationСard(window.backend.workWithServer(`GET`, window.backend.LOAD_URL, window.main.successLoadHandler));
     }
   });
 
   window.move = {
     mainPinTailY,
+    getPins,
     mainPinCenterX,
     mainPinCenterY,
     mainPinPositionX,

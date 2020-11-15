@@ -55,6 +55,7 @@
   const successLoadHandler = (pins) => {
     window.data.pins = pins;
     addPinsToMap(window.data.pins);
+    window.main.mainPin.removeEventListener(`click`, window.move.getPins);
     activationСard();
   };
 

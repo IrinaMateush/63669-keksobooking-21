@@ -167,6 +167,7 @@
     window.filter.removeElements();
     disabledAll();
     window.form.noticeAddress.setAttribute(`value`, window.move.mainPinCenterX + `, ` + window.move.mainPinTailY);
+    window.main.mainPin.addEventListener(`click`, window.move.getPins);
   });
 
   const successUploadHandler = () => {
