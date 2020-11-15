@@ -2,7 +2,7 @@
 
 (() => {
   const PINS_COUNT = 5;
-  const mainPin = document.querySelector(`.map__pin--main`);
+  const orangePin = document.querySelector(`.map__pin--main`);
   const map = document.querySelector(`.map`);
   const pinListElement = document.querySelector(`.map__pins`);
 
@@ -35,7 +35,7 @@
   };
 
   const activationСard = () => {
-    mainPin.removeEventListener(`keydown`, pressEnterHandler);
+    orangePin.removeEventListener(`keydown`, pressEnterHandler);
     document.removeEventListener(`keydown`, window.form.successEscPressHandler);
     document.removeEventListener(`keydown`, window.form.errorEscPressHandler);
     map.classList.remove(`map--faded`);
@@ -49,13 +49,13 @@
     window.form.activateFields(window.form.noticeSelects);
     window.form.changeCursorPointer(window.map.mapSelectFilters);
     window.form.changeCursorPointer(window.map.mapLabelFilters);
-    window.form.noticeAddress.setAttribute(`value`, window.move.mainPinCenterX + `, ` + window.move.mainPinTailY);
+    window.form.noticeAddress.setAttribute(`value`, window.move.orangePinCenterX + `, ` + window.move.orangePinTailY);
   };
 
   const successLoadHandler = (pins) => {
     window.data.pins = pins;
     addPinsToMap(window.data.pins);
-    window.main.mainPin.removeEventListener(`click`, window.move.getPinsHandler);
+    window.main.orangePin.removeEventListener(`click`, window.move.getPinsHandler);
     activationСard();
   };
 
@@ -65,10 +65,10 @@
     }
   };
 
-  mainPin.addEventListener(`keydown`, pressEnterHandler);
+  orangePin.addEventListener(`keydown`, pressEnterHandler);
 
   window.main = {
-    mainPin,
+    orangePin,
     map,
     activationСard,
     successLoadHandler,

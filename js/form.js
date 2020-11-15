@@ -55,12 +55,12 @@
     noticeDescription.setAttribute(`disabled`, `disabled`);
     noticeAvatar.setAttribute(`disabled`, `disabled`);
     noticeBlank.classList.add(`ad-form--disabled`);
-    window.main.mainPin.style.top = window.move.mainPinPositionY + `px`;
-    window.main.mainPin.style.left = window.move.mainPinPositionX + `px`;
+    window.main.orangePin.style.top = window.move.orangePinPositionY + `px`;
+    window.main.orangePin.style.left = window.move.orangePinPositionX + `px`;
   };
 
   disabledAll();
-  noticeAddress.setAttribute(`placeholder`, window.move.mainPinCenterX + `, ` + window.move.mainPinCenterY);
+  noticeAddress.setAttribute(`placeholder`, window.move.orangePinCenterX + `, ` + window.move.orangePinCenterY);
 
   const checkAvailabilityHandler = () => {
     if ((noticeRooms.value === `1`) && (noticeCapacity.value !== `1`)) {
@@ -166,8 +166,8 @@
     noticeBlank.reset();
     window.filter.removeElements();
     disabledAll();
-    window.form.noticeAddress.setAttribute(`value`, window.move.mainPinCenterX + `, ` + window.move.mainPinTailY);
-    window.main.mainPin.addEventListener(`click`, window.move.getPinsHandler);
+    window.form.noticeAddress.setAttribute(`value`, window.move.orangePinCenterX + `, ` + window.move.orangePinTailY);
+    window.main.orangePin.addEventListener(`click`, window.move.getPinsHandler);
   });
 
   const successUploadHandler = () => {
@@ -175,7 +175,7 @@
     disabledAll();
     showSuccess();
     window.filter.removeElements();
-    window.form.noticeAddress.setAttribute(`value`, window.move.mainPinCenterX + `, ` + window.move.mainPinTailY);
+    window.form.noticeAddress.setAttribute(`value`, window.move.orangePinCenterX + `, ` + window.move.orangePinTailY);
   };
 
   const errorLoadHandler = () => {
@@ -188,7 +188,7 @@
       return;
     }
     window.backend.workWithServer(`POST`, window.backend.UPLOAD_URL, successUploadHandler);
-    window.main.mainPin.addEventListener(`click`, window.move.getPinsHandler);
+    window.main.orangePin.addEventListener(`click`, window.move.getPinsHandler);
   });
 
   noticeCapacity.addEventListener(`change`, checkAvailabilityHandler);

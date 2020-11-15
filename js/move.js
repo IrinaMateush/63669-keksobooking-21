@@ -8,7 +8,7 @@
   const END_BORDER_X = window.main.map.offsetWidth + START_BORDER_X;
   const MAIN_PIN_TAILS_HEIGHT = 22;
 
-  const mainPinHalf = window.main.mainPin.offsetWidth / 2;
+  const orangePinHalf = window.main.orangePin.offsetWidth / 2;
 
   const getCoords = (elem) => {
     const box = elem.getBoundingClientRect();
@@ -19,19 +19,19 @@
     };
   };
 
-  const mainPinPositionX = getCoords(window.main.mainPin).left - START_BORDER_X;
-  const mainPinPositionY = getCoords(window.main.mainPin).top;
-  let mainPinCenterX = Math.round(getCoords(window.main.mainPin).left + mainPinHalf);
-  let mainPinCenterY = Math.round(getCoords(window.main.mainPin).top + mainPinHalf);
-  let mainPinTailY = Math.round(mainPinCenterY + mainPinHalf + MAIN_PIN_TAILS_HEIGHT);
+  const orangePinPositionX = getCoords(window.main.orangePin).left - START_BORDER_X;
+  const orangePinPositionY = getCoords(window.main.orangePin).top;
+  let orangePinCenterX = Math.round(getCoords(window.main.orangePin).left + orangePinHalf);
+  let orangePinCenterY = Math.round(getCoords(window.main.orangePin).top + orangePinHalf);
+  let orangePinTailY = Math.round(orangePinCenterY + orangePinHalf + MAIN_PIN_TAILS_HEIGHT);
 
   const getPinsHandler = () => {
     window.main.activationСard(window.backend.workWithServer(`GET`, window.backend.LOAD_URL, window.main.successLoadHandler));
   };
 
-  window.main.mainPin.addEventListener(`click`, getPinsHandler);
+  window.main.orangePin.addEventListener(`click`, getPinsHandler);
 
-  window.main.mainPin.addEventListener(`mousedown`, (evt) => {
+  window.main.orangePin.addEventListener(`mousedown`, (evt) => {
     evt.preventDefault();
     if (evt.which === LEFT_MOUSE_BUTTON) {
 
@@ -53,29 +53,29 @@
           y: moveEvt.clientY
         };
 
-        let mainPinTop = window.main.mainPin.offsetTop - shift.y;
-        let mainPinLeft = window.main.mainPin.offsetLeft - shift.x;
-        let pinBorderRight = mainPinLeft + START_BORDER_X + mainPinHalf;
+        let orangePinTop = window.main.orangePin.offsetTop - shift.y;
+        let orangePinLeft = window.main.orangePin.offsetLeft - shift.x;
+        let pinBorderRight = orangePinLeft + START_BORDER_X + orangePinHalf;
 
-        if (mainPinLeft <= -mainPinHalf) {
-          mainPinLeft = -mainPinHalf;
+        if (orangePinLeft <= -orangePinHalf) {
+          orangePinLeft = -orangePinHalf;
         } else if (pinBorderRight >= END_BORDER_X) {
-          mainPinLeft = END_BORDER_X - START_BORDER_X - mainPinHalf;
+          orangePinLeft = END_BORDER_X - START_BORDER_X - orangePinHalf;
         }
 
-        if (mainPinTop <= START_BORDER_Y) {
-          mainPinTop = START_BORDER_Y;
-        } else if (mainPinTop >= END_BORDER_Y) {
-          mainPinTop = END_BORDER_Y;
+        if (orangePinTop <= START_BORDER_Y) {
+          orangePinTop = START_BORDER_Y;
+        } else if (orangePinTop >= END_BORDER_Y) {
+          orangePinTop = END_BORDER_Y;
         }
 
-        window.main.mainPin.style.top = mainPinTop + `px`;
-        window.main.mainPin.style.left = mainPinLeft + `px`;
+        window.main.orangePin.style.top = orangePinTop + `px`;
+        window.main.orangePin.style.left = orangePinLeft + `px`;
 
-        mainPinCenterX = Math.round(window.main.mainPin.getBoundingClientRect().x + mainPinHalf);
-        mainPinCenterY = Math.round(window.main.mainPin.getBoundingClientRect().y + mainPinHalf);
-        mainPinTailY = Math.round(mainPinCenterY + mainPinHalf + MAIN_PIN_TAILS_HEIGHT);
-        window.form.noticeAddress.setAttribute(`value`, mainPinCenterX + `, ` + mainPinTailY);
+        orangePinCenterX = Math.round(window.main.orangePin.getBoundingClientRect().x + orangePinHalf);
+        orangePinCenterY = Math.round(window.main.orangePin.getBoundingClientRect().y + orangePinHalf);
+        orangePinTailY = Math.round(orangePinCenterY + orangePinHalf + MAIN_PIN_TAILS_HEIGHT);
+        window.form.noticeAddress.setAttribute(`value`, orangePinCenterX + `, ` + orangePinTailY);
       };
 
       const upMouseHandler = (upEvt) => {
@@ -91,12 +91,12 @@
   });
 
   window.move = {
-    mainPinTailY,
+    orangePinTailY,
     getPinsHandler,
-    mainPinCenterX,
-    mainPinCenterY,
-    mainPinPositionX,
-    mainPinPositionY
+    orangePinCenterX,
+    orangePinCenterY,
+    orangePinPositionX,
+    orangePinPositionY
   };
 
 })();
