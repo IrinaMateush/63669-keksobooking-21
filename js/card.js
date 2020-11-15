@@ -32,17 +32,16 @@
   const setTextTime = (block, dateStart, dateEnd) => {
     if ((dateStart === undefined) || (dateEnd === undefined)) {
       return block.classList.add(`hidden`);
-    } else {
-      const text = block.textContent = `Заезд после ` + dateStart + `, выезд до ` + dateEnd;
-      return text;
     }
+    const text = block.textContent = `Заезд после ` + dateStart + `, выезд до ` + dateEnd;
+    return text;
   };
 
   const setAvatar = (block, element) => {
     return (element === undefined) ? block.classList.add(`hidden`) : block.setAttribute(`src`, element);
   };
 
-  const renderCard = (pin) => {
+  const renderAdvertising = (pin) => {
     const cardElement = cardTemplate.cloneNode(true);
 
     getPhotos(pin, cardElement);
@@ -60,7 +59,7 @@
   };
 
   window.card = {
-    renderCard
+    renderAdvertising
   };
 
 })();

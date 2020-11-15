@@ -22,25 +22,25 @@
   noticePrice.setAttribute(`min`, HOUSING_MIN_COST);
 
   const disabledFields = (elements) => {
-    for (let element of elements) {
+    for (const element of elements) {
       element.setAttribute(`disabled`, `disabled`);
     }
   };
 
   const activateForm = (elements) => {
-    for (let element of elements) {
+    for (const element of elements) {
       element.removeAttribute(`disabled`, `disabled`);
     }
   };
 
   const changeCursorDefaut = (elements) => {
-    for (let element of elements) {
+    for (const element of elements) {
       element.style.cursor = `default`;
     }
   };
 
   const changeCursorPointer = (elements) => {
-    for (let element of elements) {
+    for (const element of elements) {
       element.style.cursor = `pointer`;
     }
   };
@@ -78,8 +78,8 @@
   };
 
   const synchronizeTime = (timeIn, timeOut) => {
-    let times = timeIn.querySelectorAll(`option`);
-    for (let time of times) {
+    const times = timeIn.querySelectorAll(`option`);
+    for (const time of times) {
       if (time.value === timeOut.value) {
         time.selected = true;
       }
@@ -186,7 +186,7 @@
     if (!checkFields()) {
       return;
     }
-    window.backend.load(`POST`, window.backend.UPLOAD_URL, successUploadHandler);
+    window.backend.workWithServer(`POST`, window.backend.UPLOAD_URL, successUploadHandler);
   });
 
   noticeCapacity.addEventListener(`change`, checkAvailability);

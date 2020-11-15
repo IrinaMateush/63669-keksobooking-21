@@ -19,10 +19,10 @@
     const pinElements = document.querySelectorAll(`.map__pin:not(.map__pin--main)`);
     window.pinElements = pinElements;
 
-    for (let pinElement of pinElements) {
+    for (const pinElement of pinElements) {
       pinElement.addEventListener(`click`, () => {
         const pinsAvatar = pinElement.querySelector(`img`).getAttribute(`src`);
-        window.map.openCard(pinsAvatar);
+        window.map.openAdvertising(pinsAvatar);
         window.map.closePopup();
 
         document.removeEventListener(`keydown`, (evt) => {
@@ -35,7 +35,7 @@
   };
 
   const activationСard = () => {
-    mainPin.removeEventListener(`keydown`, pressEnter);
+    mainPin.removeEventListener(`keydown`, pressEnterHandler);
     document.removeEventListener(`keydown`, window.form.pressEcsOnSuccess);
     document.removeEventListener(`keydown`, window.form.pressEcsOnError);
     map.classList.remove(`map--faded`);
@@ -53,19 +53,18 @@
   };
 
   const successLoadHandler = (pins) => {
-    window.pins = pins;
-    addPinsToMap(pins);
-    window.main.mainPin.removeEventListener(`mousedown`, window.move.trackMouse);
+    window.data.pins = pins;
+    addPinsToMap(window.data.pins);
     activationСard();
   };
 
-  const pressEnter = (evt) => {
+  const pressEnterHandler = (evt) => {
     if (evt.key === `Enter`) {
-      activationСard(window.backend.load(`GET`, window.backend.LOAD_URL, window.main.successLoadHandler));
+      activationСard(window.backend.workWithServer(`GET`, window.backend.LOAD_URL, window.main.successLoadHandler));
     }
   };
 
-  mainPin.addEventListener(`keydown`, pressEnter);
+  mainPin.addEventListener(`keydown`, pressEnterHandler);
 
   window.main = {
     mainPin,

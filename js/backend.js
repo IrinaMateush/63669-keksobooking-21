@@ -4,13 +4,13 @@
   const LOAD_URL = `https://21.javascript.pages.academy/keksobooking/data`;
   const UPLOAD_URL = `https://21.javascript.pages.academy/keksobooking`;
 
-  const load = (method, url, onSuccess) => {
+  const workWithServer = (method, url, successHandler) => {
     const xhr = new XMLHttpRequest();
     xhr.responseType = `json`;
 
     xhr.addEventListener(`load`, () => {
       if (xhr.status === 200) {
-        onSuccess(xhr.response);
+        successHandler(xhr.response);
       }
     });
 
@@ -23,7 +23,7 @@
   };
 
   window.backend = {
-    load,
+    workWithServer,
     LOAD_URL,
     UPLOAD_URL
   };

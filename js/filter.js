@@ -27,7 +27,7 @@
     }
 
     if (window.pinElements !== null) {
-      for (let pinElement of window.pinElements) {
+      for (const pinElement of window.pinElements) {
         pinElement.remove();
       }
     }
@@ -93,7 +93,7 @@
   };
 
   const filterPins = () => {
-    const filteredHousing = getTypeOfHousing(window.pins);
+    const filteredHousing = getTypeOfHousing(window.data.pins);
     const filteredRooms = getHousingRooms(filteredHousing);
     const filteredGuests = getHousingGuest(filteredRooms);
     const filteredPrice = getPrice(filteredGuests);
@@ -106,11 +106,11 @@
     window.main.addPinsToMap(filteredConditioners);
   };
 
-  for (let mapFilter of mapFilters) {
+  for (const mapFilter of mapFilters) {
     mapFilter.addEventListener(`change`, window.debounce(filterPins));
   }
 
-  for (let housingFeature of housingFeatures) {
+  for (const housingFeature of housingFeatures) {
     housingFeature.addEventListener(`change`, window.debounce(filterPins));
   }
 

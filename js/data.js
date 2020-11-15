@@ -9,6 +9,7 @@
   const CHECKOUTTIMES = [`12:00`, `13:00`, `14:00`];
   const successTemplate = document.querySelector(`#success`).content.querySelector(`.success`);
   const errorTemplate = document.querySelector(`#error`).content.querySelector(`.error`);
+  const pins = [];
 
   const getRandomInt = (min, max) => {
     min = Math.ceil(min);
@@ -81,6 +82,7 @@
     TYPES,
     CHECKINTIMES,
     CHECKOUTTIMES,
+    pins,
     getRandomInt,
     getLivingType,
     getLivingTypeCost,

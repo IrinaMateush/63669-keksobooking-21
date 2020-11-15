@@ -21,7 +21,7 @@
     return pinElement;
   };
 
-  const openCard = (pinsAvatar) => {
+  const openAdvertising = (pinsAvatar) => {
     const cardPopup = document.querySelector(`.popup`);
 
     if (cardPopup !== null) {
@@ -30,9 +30,9 @@
 
     const cardsFragment = document.createDocumentFragment();
 
-    for (let pin of window.pins) {
+    for (const pin of window.data.pins) {
       if (pin.author.avatar === pinsAvatar) {
-        cardsFragment.appendChild(window.card.renderCard(pin));
+        cardsFragment.appendChild(window.card.renderAdvertising(pin));
       }
     }
     window.main.map.insertBefore(cardsFragment, window.map.mapFilters);
@@ -59,7 +59,7 @@
     mapSelectFilters,
     mapCheckboxFilters,
     renderPin,
-    openCard,
+    openAdvertising,
     mapLabelFilters,
     closePopup
   };

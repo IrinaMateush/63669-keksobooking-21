@@ -11,7 +11,7 @@
   const mainPinHalf = window.main.mainPin.offsetWidth / 2;
 
   const getCoords = (elem) => {
-    let box = elem.getBoundingClientRect();
+    const box = elem.getBoundingClientRect();
 
     return {
       top: Math.round(box.top + pageYOffset),
@@ -25,7 +25,7 @@
   let mainPinCenterY = Math.round(getCoords(window.main.mainPin).top + mainPinHalf);
   let mainPinTailY = Math.round(mainPinCenterY + mainPinHalf + MAIN_PIN_TAILS_HEIGHT);
 
-  const trackMouse = (evt) => {
+  window.main.mainPin.addEventListener(`mousedown`, (evt) => {
     evt.preventDefault();
     if (evt.which === LEFT_MOUSE_BUTTON) {
 
@@ -37,7 +37,7 @@
       const moveMouse = (moveEvt) => {
         moveEvt.preventDefault();
 
-        let shift = {
+        const shift = {
           x: startCoords.x - moveEvt.clientX,
           y: startCoords.y - moveEvt.clientY
         };
@@ -82,16 +82,13 @@
       document.addEventListener(`mousemove`, moveMouse);
       document.addEventListener(`mouseup`, upMouse);
 
-      window.main.activationСard(window.backend.load(`GET`, window.backend.LOAD_URL, window.main.successLoadHandler));
+      window.main.activationСard(window.backend.workWithServer(`GET`, window.backend.LOAD_URL, window.main.successLoadHandler));
     }
-  };
-
-  window.main.mainPin.addEventListener(`mousedown`, trackMouse);
+  });
 
   window.move = {
     mainPinTailY,
     mainPinCenterX,
-    trackMouse,
     mainPinCenterY,
     mainPinPositionX,
     mainPinPositionY
