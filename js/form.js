@@ -62,7 +62,7 @@
   disabledAll();
   noticeAddress.setAttribute(`placeholder`, window.move.mainPinCenterX + `, ` + window.move.mainPinCenterY);
 
-  const checkAvailability = () => {
+  const checkAvailabilityHandler = () => {
     if ((noticeRooms.value === `1`) && (noticeCapacity.value !== `1`)) {
       noticeRooms.setCustomValidity(`1 комната только для 1 гостя`);
     } else if ((noticeRooms.value === `100`) && (noticeCapacity.value !== `0`)) {
@@ -93,7 +93,7 @@
 
     const successMessage = document.querySelector(`.success`);
 
-    const pressEcsOnSuccess = (evt) => {
+    const successEscPressHandler = (evt) => {
       if (evt.key === `Escape`) {
         evt.preventDefault();
         successMessage.remove();
@@ -104,7 +104,7 @@
       successMessage.remove();
     });
 
-    document.addEventListener(`keydown`, pressEcsOnSuccess);
+    document.addEventListener(`keydown`, successEscPressHandler);
   };
 
   const showError = () => {
@@ -118,14 +118,14 @@
       errorMessage.remove();
     });
 
-    const pressEcsOnError = (evt) => {
+    const errorEscPressHandler = (evt) => {
       if (evt.key === `Escape`) {
         evt.preventDefault();
         errorMessage.remove();
       }
     };
 
-    document.addEventListener(`keydown`, pressEcsOnError);
+    document.addEventListener(`keydown`, errorEscPressHandler);
   };
 
   const checkFields = () => {
@@ -167,7 +167,7 @@
     window.filter.removeElements();
     disabledAll();
     window.form.noticeAddress.setAttribute(`value`, window.move.mainPinCenterX + `, ` + window.move.mainPinTailY);
-    window.main.mainPin.addEventListener(`click`, window.move.getPins);
+    window.main.mainPin.addEventListener(`click`, window.move.getPinsHandler);
   });
 
   const successUploadHandler = () => {
@@ -190,9 +190,9 @@
     window.backend.workWithServer(`POST`, window.backend.UPLOAD_URL, successUploadHandler);
   });
 
-  noticeCapacity.addEventListener(`change`, checkAvailability);
+  noticeCapacity.addEventListener(`change`, checkAvailabilityHandler);
 
-  noticeRooms.addEventListener(`change`, checkAvailability);
+  noticeRooms.addEventListener(`change`, checkAvailabilityHandler);
 
   noticeTimeIn.addEventListener(`change`, () => {
     synchronizeTime(noticeTimeOut, noticeTimeIn);

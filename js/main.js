@@ -36,8 +36,8 @@
 
   const activationСard = () => {
     mainPin.removeEventListener(`keydown`, pressEnterHandler);
-    document.removeEventListener(`keydown`, window.form.pressEcsOnSuccess);
-    document.removeEventListener(`keydown`, window.form.pressEcsOnError);
+    document.removeEventListener(`keydown`, window.form.successEscPressHandler);
+    document.removeEventListener(`keydown`, window.form.errorEscPressHandler);
     map.classList.remove(`map--faded`);
     window.map.mapFilters.classList.remove(`ad-form--disabled`);
     window.form.noticeForm.classList.remove(`ad-form--disabled`);
@@ -55,7 +55,7 @@
   const successLoadHandler = (pins) => {
     window.data.pins = pins;
     addPinsToMap(window.data.pins);
-    window.main.mainPin.removeEventListener(`click`, window.move.getPins);
+    window.main.mainPin.removeEventListener(`click`, window.move.getPinsHandler);
     activationСard();
   };
 
