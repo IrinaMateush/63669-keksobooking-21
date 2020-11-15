@@ -11,6 +11,21 @@
   const errorTemplate = document.querySelector(`#error`).content.querySelector(`.error`);
   const pins = [];
 
+  const LivingTypes = {
+    palace: `Дворец`,
+    flat: `Квартира`,
+    house: `Дом`,
+    bungalo: `Бунгало`,
+    undefined: `Неожиданный тип жилья`
+  };
+
+  const LivingCost = {
+    palace: 10000,
+    flat: 1000,
+    house: 5000,
+    bungalo: 0
+  };
+
   const getRandomInt = (min, max) => {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -18,33 +33,11 @@
   };
 
   const getLivingType = (pin) => {
-    switch (pin.offer.type) {
-      case `palace`:
-        return `Дворец`;
-      case `flat`:
-        return `Квартира`;
-      case `house`:
-        return `Дом`;
-      case `bungalo`:
-        return `Бунгало`;
-      default:
-        return `Неожиданный тип жилья`;
-    }
+    return LivingTypes[pin.offer.type];
   };
 
   const getLivingTypeCost = (livingType) => {
-    switch (livingType.value) {
-      case `palace`:
-        return 10000;
-      case `flat`:
-        return 1000;
-      case `house`:
-        return 5000;
-      case `bungalow`:
-        return 0;
-      default:
-        return `Неожиданный тип жилья`;
-    }
+    return LivingCost[livingType.value];
   };
 
   const getCapacity = (pin) => {
