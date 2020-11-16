@@ -1,6 +1,7 @@
 'use strict';
 
 const HOUSING_MIN_COST = 1000;
+const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
 const main = document.querySelector(`main`);
 const noticeBlank = document.querySelector(`form.ad-form`);
 const noticeAvatar = noticeBlank.querySelector(`#avatar`);
@@ -16,6 +17,38 @@ const noticeReset = noticeBlank.querySelector(`.ad-form__reset`);
 const noticeInputs = document.querySelectorAll(`.ad-form__element input`);
 const noticeSelects = document.querySelectorAll(`.ad-form__element select`);
 const noticeDescription = document.querySelector(`#description`);
+const avatarFileChooser = document.querySelector(`#avatar`);
+const avatarPreview = document.querySelector(`.ad-form-header__preview img`);
+const livingFotoFileChooser = document.querySelector(`#images`);
+const livingFotoPreview = document.querySelector(`.ad-form__photo`);
+
+let livingFotoPreviewImage = document.createElement(`img`);
+livingFotoPreviewImage.setAttribute(`src`, `img/muffin-grey.svg`);
+livingFotoPreviewImage.setAttribute(`alt`, `Фото жилья`);
+livingFotoPreviewImage.setAttribute(`width`, `70`);
+livingFotoPreviewImage.setAttribute(`height`, `70`);
+livingFotoPreview.appendChild(livingFotoPreviewImage);
+
+const loadFoto = (element, preview) => {
+  element.addEventListener(`change`, function () {
+    const file = element.files[0];
+    const fileName = file.name.toLowerCase();
+    const matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+
+    if (matches) {
+      const reader = new FileReader();
+      reader.addEventListener(`load`, function () {
+        preview.src = reader.result;
+      });
+      reader.readAsDataURL(file);
+    }
+  });
+};
+
+loadFoto(avatarFileChooser, avatarPreview);
+loadFoto(livingFotoFileChooser, livingFotoPreviewImage);
 
 noticePrice.setAttribute(`placeholder`, HOUSING_MIN_COST);
 noticePrice.setAttribute(`min`, HOUSING_MIN_COST);
