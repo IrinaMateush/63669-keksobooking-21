@@ -25,11 +25,11 @@
   let orangePinCenterY = Math.round(getCoords(window.main.orangePin).top + orangePinHalf);
   let orangePinTailY = Math.round(orangePinCenterY + orangePinHalf + MAIN_PIN_TAILS_HEIGHT);
 
-  const getPinsHandler = () => {
+  const pinsHandler = () => {
     window.main.activationСard(window.backend.workWithServer(`GET`, window.backend.LOAD_URL, window.main.successLoadHandler));
   };
 
-  window.main.orangePin.addEventListener(`click`, getPinsHandler);
+  window.main.orangePin.addEventListener(`click`, pinsHandler);
 
   window.main.orangePin.addEventListener(`mousedown`, (evt) => {
     evt.preventDefault();
@@ -40,7 +40,7 @@
         y: evt.clientY
       };
 
-      const moveMouseHandler = (moveEvt) => {
+      const mouseMoveHandler = (moveEvt) => {
         moveEvt.preventDefault();
 
         const shift = {
@@ -78,21 +78,21 @@
         window.form.noticeAddress.setAttribute(`value`, orangePinCenterX + `, ` + orangePinTailY);
       };
 
-      const upMouseHandler = (upEvt) => {
+      const mouseUpHandler = (upEvt) => {
         upEvt.preventDefault();
 
-        document.removeEventListener(`mousemove`, moveMouseHandler);
-        document.removeEventListener(`mouseup`, upMouseHandler);
+        document.removeEventListener(`mousemove`, mouseMoveHandler);
+        document.removeEventListener(`mouseup`, mouseUpHandler);
       };
 
-      document.addEventListener(`mousemove`, moveMouseHandler);
-      document.addEventListener(`mouseup`, upMouseHandler);
+      document.addEventListener(`mousemove`, mouseMoveHandler);
+      document.addEventListener(`mouseup`, mouseUpHandler);
     }
   });
 
   window.move = {
     orangePinTailY,
-    getPinsHandler,
+    pinsHandler,
     orangePinCenterX,
     orangePinCenterY,
     orangePinPositionX,

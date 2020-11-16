@@ -36,22 +36,24 @@
       }
     }
     window.main.map.insertBefore(cardsFragment, window.map.filtersContainer);
+    document.addEventListener(`keydown`, pressEcsOnPopupHandler);
   };
 
-  const closePopup = () => {
+  const closePopup = (popup) => {
+    const popupClose = popup.querySelector(`.popup__close`);
+    popup.remove();
+    document.removeEventListener(`keydown`, pressEcsOnPopupHandler);
+    popupClose.removeEventListener(`click`, window.main.pressCrossHandler);
+  };
+
+  window.main.orangePin.addEventListener(`click`, window.move.pinsHandler);
+
+  const pressEcsOnPopupHandler = (evt) => {
     const cardPopup = document.querySelector(`.popup`);
-    const popupClose = document.querySelector(`.popup__close`);
-    popupClose.addEventListener(`click`, () => {
-      cardPopup.remove();
-    });
-
-    document.addEventListener(`keydown`, (evt) => {
-      if (evt.key === `Escape`) {
-        evt.preventDefault();
-        cardPopup.remove();
-      }
-    });
-
+    if (evt.key === `Escape`) {
+      evt.preventDefault();
+      closePopup(cardPopup);
+    }
   };
 
   window.map = {
@@ -60,8 +62,8 @@
     checkboxFilters,
     labelFilters,
     renderPin,
-    openAdvertising,
-    closePopup
+    closePopup,
+    openAdvertising
   };
 
 })();

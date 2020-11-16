@@ -167,7 +167,7 @@
     window.filter.removeElements();
     disabledAll();
     window.form.noticeAddress.setAttribute(`value`, window.move.orangePinCenterX + `, ` + window.move.orangePinTailY);
-    window.main.orangePin.addEventListener(`click`, window.move.getPinsHandler);
+    window.main.orangePin.addEventListener(`click`, window.move.pinsHandler);
   });
 
   const successUploadHandler = () => {
@@ -188,7 +188,7 @@
       return;
     }
     window.backend.workWithServer(`POST`, window.backend.UPLOAD_URL, successUploadHandler);
-    window.main.orangePin.addEventListener(`click`, window.move.getPinsHandler);
+    window.main.orangePin.addEventListener(`click`, window.move.pinsHandler);
   });
 
   noticeCapacity.addEventListener(`change`, checkAvailabilityHandler);

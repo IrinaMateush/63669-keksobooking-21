@@ -23,15 +23,17 @@
       pinElement.addEventListener(`click`, () => {
         const pinsAvatar = pinElement.querySelector(`img`).getAttribute(`src`);
         window.map.openAdvertising(pinsAvatar);
-        window.map.closePopup();
-
-        document.removeEventListener(`keydown`, (evt) => {
-          if (evt.key === `Escape`) {
-            evt.preventDefault();
-          }
-        });
+        const cardPopup = document.querySelector(`.popup`);
+        const popupClose = cardPopup.querySelector(`.popup__close`);
+        popupClose.addEventListener(`click`, pressCrossHandler);
       });
+
     }
+  };
+
+  const pressCrossHandler = () => {
+    const cardPopup = document.querySelector(`.popup`);
+    window.map.closePopup(cardPopup);
   };
 
   const activationСard = () => {
@@ -55,7 +57,7 @@
   const successLoadHandler = (pins) => {
     window.data.pins = pins;
     addPinsToMap(window.data.pins);
-    window.main.orangePin.removeEventListener(`click`, window.move.getPinsHandler);
+    window.main.orangePin.removeEventListener(`click`, window.move.pinsHandler);
     activationСard();
   };
 
@@ -72,7 +74,8 @@
     map,
     activationСard,
     successLoadHandler,
-    addPinsToMap
+    addPinsToMap,
+    pressCrossHandler
   };
 
 })();
